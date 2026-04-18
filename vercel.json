@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "name": "linkguardian-pro-frontend",
+  "builds": [
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/dashboard", "dest": "/frontend/dashboard.html" },
+    { "src": "/login",     "dest": "/frontend/login.html"     },
+    { "src": "/signup",    "dest": "/frontend/signup.html"    },
+    { "src": "/terms",     "dest": "/frontend/terms.html"     },
+    { "src": "/privacy",   "dest": "/frontend/privacy.html"   },
+    { "src": "/about",     "dest": "/frontend/about.html"     },
+    { "src": "/help",      "dest": "/frontend/help.html"      },
+    { "src": "/contact",   "dest": "/frontend/contact.html"   },
+    { "src": "/(.*)",      "dest": "/frontend/$1"             }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options",    "value": "nosniff"        },
+        { "key": "X-Frame-Options",           "value": "DENY"           },
+        { "key": "X-XSS-Protection",          "value": "1; mode=block"  },
+        { "key": "Referrer-Policy",           "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}
