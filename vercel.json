@@ -18,6 +18,9 @@
     { "src": "/contact",   "dest": "/frontend/contact.html"   },
     { "src": "/(.*)",      "dest": "/frontend/$1"             }
   ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://linkguardianpro-production.up.railway.app/api/$1" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -28,10 +31,5 @@
         { "key": "Referrer-Policy",           "value": "strict-origin-when-cross-origin" }
       ]
     }
-  ]
-}
-{
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://linkguardianpro-production.up.railway.app/api/$1" }
   ]
 }
