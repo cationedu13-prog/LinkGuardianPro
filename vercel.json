@@ -30,3 +30,8 @@
     }
   ]
 }
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://linkguardianpro.up.railway.app/api/$1" }
+  ]
+}
