@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up – LinkGuardian Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">🛡</div>
+        LinkGuardian Pro
+      </a>
+    </div>
+    <h1 class="auth-title">Create free account</h1>
+    <p class="auth-subtitle">Monitor up to 5 links for free — forever. No credit card needed.</p>
+
+    <div class="alert-box" id="alertBox"></div>
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label class="form-label" for="fullName">Full Name</label>
+        <input type="text" class="form-input" id="fullName" placeholder="Your name" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input type="email" class="form-input" id="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-input" id="password" placeholder="Min. 8 characters" autocomplete="new-password" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="confirm">Confirm Password</label>
+        <input type="password" class="form-input" id="confirm" placeholder="Repeat password" autocomplete="new-password" />
+      </div>
+      <p style="font-size:0.8rem;color:var(--text-3);line-height:1.6;">
+        By signing up you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a>.
+      </p>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" id="signupBtn" onclick="doSignup()">
+        <span id="signupBtnText">Create Account</span>
+        <span class="spinner hidden" id="signupSpinner"></span>
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      Already have an account? <a href="/login">Sign in →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+
+async function doSignup() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const confirm  = document.getElementById('confirm').value;
+  const btn      = document.getElementById('signupBtn');
+  const spinner  = document.getElementById('signupSpinner');
+  const btnText  = document.getElementById('signupBtnText');
+  const alertBox = document.getElementById('alertBox');
+
+  if (!email || !password) {
+    showAlert(alertBox, 'Email and password are required.', 'error');
+    return;
+  }
+  if (password.length < 8) {
+    showAlert(alertBox, 'Password must be at least 8 characters.', 'error');
+    return;
+  }
+  if (password !== confirm) {
+    showAlert(alertBox, 'Passwords do not match.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Creating account…';
+
+  try {
+    const resp = await fetch(`${API}/api/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, password, full_name: fullName }),
+    });
+    const data = await resp.json();
+
+    if (resp.ok) {
+      showAlert(alertBox, 'Account created! Redirecting to dashboard…', 'success');
+      setTimeout(() => window.location.href = '/dashboard', 1000);
+    } else {
+      showAlert(alertBox, data.error || 'Signup failed. Try again.', 'error');
+    }
+  } catch (e) {
+    showAlert(alertBox, 'Network error. Check your connection.', 'error');
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Create Account';
+  }
+}
+
+function showAlert(el, msg, type) {
+  el.textContent = msg;
+  el.className = `alert-box show ${type}`;
+}
+</script>
+</body>
+</html>

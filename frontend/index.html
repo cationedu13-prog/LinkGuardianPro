@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkGuardian Pro – Never Lose Money to Broken Links</title>
+  <meta name="description" content="Monitor Amazon, Flipkart, and any URL for broken links and out-of-stock products. Real-time Telegram alerts." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Navigation ───────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">🛡</div>
+        LinkGuardian Pro
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="help.html">Help</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="/login" class="btn btn-ghost btn-sm">Login</a>
+        <a href="/signup" class="btn btn-primary btn-sm">Get Started Free</a>
+        <button class="nav-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="help.html">Help</a>
+      <a href="about.html">About</a>
+      <a href="/login">Login</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">
+      <span>●</span> Multi-layer link monitoring
+    </div>
+    <h1 class="animate-fade-up">
+      Never Lose Money<br>to <span class="accent">Broken Links</span>
+    </h1>
+    <p class="animate-fade-up delay-1">
+      Monitor Amazon products, Flipkart listings, and any URL 24/7.
+      Get instant Telegram alerts when links break or go out of stock.
+      Three detection layers. Zero missed alerts.
+    </p>
+    <div class="hero-cta animate-fade-up delay-2">
+      <a href="/signup" class="btn btn-primary btn-lg">Start Free — 5 Links</a>
+      <a href="#checker" class="btn btn-ghost btn-lg">Try Free Checker ↓</a>
+    </div>
+    <div class="hero-stats animate-fade-up delay-3">
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">Detection Layers</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2×</div>
+        <div class="hero-stat-label">Daily Checks</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">&#60;1s</div>
+        <div class="hero-stat-label">Alert Delivery</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">99%</div>
+        <div class="hero-stat-label">Uptime Target</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Free Checker ──────────────────────────────────────────── -->
+<section class="checker-section" id="checker">
+  <div class="container">
+    <div class="checker-card">
+      <div class="checker-title">🔍 Free Link Checker</div>
+      <div class="checker-subtitle">Check any URL instantly — no signup required. Free to use.</div>
+      <div class="checker-form">
+        <div class="checker-row">
+          <div class="form-group">
+            <label class="form-label" for="checkerUrl">URL to check</label>
+            <input type="url" class="form-input" id="checkerUrl"
+                   placeholder="https://www.amazon.in/dp/..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="checkerPlatform">Platform</label>
+            <select class="form-select" id="checkerPlatform">
+              <option value="generic">Generic</option>
+              <option value="amazon">Amazon</option>
+              <option value="flipkart">Flipkart</option>
+              <option value="shopify">Shopify</option>
+              <option value="etsy">Etsy</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="checkerBtn" onclick="runFreeCheck()">
+          <span id="checkerBtnText">Check Now</span>
+          <span class="spinner hidden" id="checkerSpinner"></span>
+        </button>
+        <div class="alert-box" id="checkerError"></div>
+      </div>
+
+      <div class="checker-result" id="checkerResult">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <strong style="font-family:var(--font-display);">Result</strong>
+          <span id="checkerBadge"></span>
+        </div>
+        <div class="checker-result-grid">
+          <div class="checker-result-item">
+            <label>Response Time</label>
+            <span id="checkerTime">—</span>
+          </div>
+          <div class="checker-result-item">
+            <label>Detection Layer</label>
+            <span id="checkerLayer">—</span>
+          </div>
+          <div class="checker-result-item">
+            <label>URL Checked</label>
+            <span id="checkerUrl2" style="font-size:0.78rem;font-family:var(--font-mono);word-break:break-all;">—</span>
+          </div>
+        </div>
+        <div id="checkerErrorMsg" style="margin-top:8px;font-size:0.82rem;color:var(--red);display:none;"></div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:0.82rem;color:var(--text-3);">
+          Want to monitor this link automatically?
+          <a href="/signup">Create a free account →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features ─────────────────────────────────────────────── -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">How it works</div>
+      <h2 class="section-title">Enterprise-grade monitoring<br>at indie prices</h2>
+      <p class="section-subtitle">Three detection layers ensure nothing slips through — even for bot-protected sites.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-title">Layer 1 – Direct HTTP</div>
+        <div class="feature-desc">Fast direct request with custom headers. Catches 90% of broken links and out-of-stock products instantly under 15 seconds.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <div class="feature-title">Layer 2 – ScraperAPI</div>
+        <div class="feature-desc">Renders JavaScript-heavy pages like Amazon and Flipkart that block direct requests. Uses real browser fingerprints.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎭</div>
+        <div class="feature-title">Layer 3 – Playwright</div>
+        <div class="feature-desc">Full headless Chromium browser as the final fallback. Handles dynamic AJAX-loaded stock status perfectly.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <div class="feature-title">Telegram Alerts</div>
+        <div class="feature-desc">Instant alerts the moment a link breaks or goes out of stock. No spam — one alert per status change, delivered in under 1 second.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏷</div>
+        <div class="feature-title">Out-of-Stock Detection</div>
+        <div class="feature-desc">Specialized keyword patterns for Amazon, Flipkart, Shopify, and generic e-commerce. Detects "Sold Out", "Currently Unavailable", and more.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-title">Check History</div>
+        <div class="feature-desc">90-day rolling history of every check. See response times, detect patterns, and audit exactly when a link changed status.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Supported Platforms ───────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--space-xl);text-align:center;">
+      <div class="section-eyebrow" style="margin-bottom:var(--space-md);">Supported platforms</div>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:var(--space-md);">
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">Amazon.in / .com</span>
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">Flipkart</span>
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">Shopify Stores</span>
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">Etsy</span>
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">WordPress / Blogs</span>
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">WooCommerce</span>
+        <span class="badge badge-pro" style="font-size:0.85rem;padding:6px 14px;">Any HTTP/HTTPS URL</span>
+      </div>
+      <p style="margin-top:var(--space-md);font-size:0.82rem;color:var(--text-3);">
+        ⚠️ Detection accuracy varies by platform. See <a href="terms.html">Terms</a> for limitations.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pricing ───────────────────────────────────────────────── -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title">Simple, transparent pricing</h2>
+      <p class="section-subtitle">Start free. Upgrade when you need more links.</p>
+    </div>
+    <div class="pricing-toggle">
+      <button class="toggle-btn active" id="btnINR" onclick="setCurrency('INR')">₹ INR</button>
+      <button class="toggle-btn" id="btnUSD" onclick="setCurrency('USD')">$ USD</button>
+    </div>
+    <div class="pricing-grid" id="pricingGrid">
+      <!-- Rendered by JS below -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo" style="font-size:1rem;">
+          <div class="nav-logo-icon" style="width:28px;height:28px;font-size:0.9rem;">🛡</div>
+          LinkGuardian Pro
+        </a>
+        <p>Professional link monitoring for Amazon affiliates, bloggers, and e-commerce businesses.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="/dashboard">Dashboard</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="help.html">Help & FAQ</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="terms.html">Terms of Service</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 LinkGuardian Pro. All rights reserved.</p>
+      <p>Made with ❤️ for affiliate marketers</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── API Base ─────────────────────────────────────────────────
+const API = '';  // same origin
+
+// ── Mobile Menu ─────────────────────────────────────────────
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+  document.getElementById('mobileNav').classList.toggle('open');
+});
+
+// ── Free Checker ─────────────────────────────────────────────
+async function runFreeCheck() {
+  const url      = document.getElementById('checkerUrl').value.trim();
+  const platform = document.getElementById('checkerPlatform').value;
+  const btn      = document.getElementById('checkerBtn');
+  const spinner  = document.getElementById('checkerSpinner');
+  const btnText  = document.getElementById('checkerBtnText');
+  const errBox   = document.getElementById('checkerError');
+  const resultDiv = document.getElementById('checkerResult');
+
+  if (!url) {
+    showAlert(errBox, 'Please enter a URL to check.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Checking…';
+  errBox.className = 'alert-box';
+  resultDiv.classList.remove('show');
+
+  try {
+    const resp = await fetch(`${API}/api/check-single`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, platform }),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      showAlert(errBox, data.error || 'Check failed. Try again.', 'error');
+      return;
+    }
+
+    // Render result
+    document.getElementById('checkerBadge').innerHTML = buildBadge(data.status);
+    document.getElementById('checkerTime').textContent =
+      data.response_time ? `${data.response_time} ms` : '—';
+    document.getElementById('checkerLayer').textContent =
+      data.layer_used || '—';
+    document.getElementById('checkerUrl2').textContent = url;
+    const errMsg = document.getElementById('checkerErrorMsg');
+    if (data.error) {
+      errMsg.textContent = 'Note: ' + data.error;
+      errMsg.style.display = 'block';
+    } else {
+      errMsg.style.display = 'none';
+    }
+    resultDiv.classList.add('show');
+
+  } catch (e) {
+    showAlert(errBox, 'Network error. Check your connection.', 'error');
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Check Now';
+  }
+}
+
+// Enter key support
+document.getElementById('checkerUrl').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runFreeCheck();
+});
+
+function buildBadge(status) {
+  const labels = { active: 'Active', broken: 'Broken', out_of_stock: 'Out of Stock', error: 'Error', pending: 'Pending' };
+  const cls = 'badge badge-' + (status || 'pending');
+  const label = labels[status] || status;
+  return `<span class="${cls}"><span class="badge-dot"></span>${label}</span>`;
+}
+
+function showAlert(el, msg, type) {
+  el.textContent = msg;
+  el.className = `alert-box show ${type}`;
+}
+
+// ── Pricing ──────────────────────────────────────────────────
+const plans = [
+  {
+    key: 'free', name: 'Free', inr: 0, usd: 0,
+    links: 5, frequency: '2× daily',
+    features: ['5 monitored links','2× daily checks','Telegram alerts','7-day history','Direct HTTP (Layer 1)'],
+    nope: ['ScraperAPI layer','Playwright layer','Priority support'],
+  },
+  {
+    key: 'pro', name: 'Pro', inr: 299, usd: 4,
+    links: 20, frequency: 'Hourly',
+    popular: true,
+    features: ['20 monitored links','Hourly checks','Telegram alerts','90-day history','All 3 detection layers','Priority email support'],
+    nope: [],
+  },
+  {
+    key: 'business', name: 'Business', inr: 799, usd: 10,
+    links: 100, frequency: 'Hourly',
+    features: ['100 monitored links','Hourly checks','Telegram alerts','90-day history','All 3 detection layers','WhatsApp alerts (soon)','Priority support'],
+    nope: [],
+  },
+  {
+    key: 'agency', name: 'Agency', inr: 1999, usd: 25,
+    links: 500, frequency: 'Hourly',
+    features: ['500 monitored links','Hourly checks','All alert channels','90-day history','All 3 detection layers','Dedicated support','API access (soon)'],
+    nope: [],
+  },
+];
+
+let currency = 'INR';
+function setCurrency(c) {
+  currency = c;
+  document.getElementById('btnINR').classList.toggle('active', c === 'INR');
+  document.getElementById('btnUSD').classList.toggle('active', c === 'USD');
+  renderPricing();
+}
+function renderPricing() {
+  const sym = currency === 'INR' ? '₹' : '$';
+  const grid = document.getElementById('pricingGrid');
+  grid.innerHTML = plans.map(p => {
+    const price = currency === 'INR' ? p.inr : p.usd;
+    const priceHtml = price === 0
+      ? `<div class="pricing-price">Free</div>`
+      : `<div class="pricing-price"><sup>${sym}</sup>${price}</div>`;
+    const feats = p.features.map(f =>
+      `<div class="pricing-feature"><span class="pricing-feature-icon">✓</span>${f}</div>`
+    ).join('');
+    const nopes = (p.nope||[]).map(f =>
+      `<div class="pricing-feature"><span class="pricing-feature-icon no">✗</span><span style="color:var(--text-3)">${f}</span></div>`
+    ).join('');
+    return `
+      <div class="pricing-card${p.popular ? ' popular' : ''}">
+        ${p.popular ? '<div class="pricing-popular-badge">Most Popular</div>' : ''}
+        <div class="pricing-plan-name">${p.name}</div>
+        ${priceHtml}
+        <div class="pricing-period">${price === 0 ? 'Forever free' : 'per month'}</div>
+        <div class="pricing-features">${feats}${nopes}</div>
+        <a href="/signup" class="btn ${p.popular ? 'btn-primary' : 'btn-secondary'}" style="width:100%;justify-content:center;">
+          ${price === 0 ? 'Get Started Free' : 'Choose ' + p.name}
+        </a>
+      </div>`;
+  }).join('');
+}
+renderPricing();
+</script>
+</body>
+</html>

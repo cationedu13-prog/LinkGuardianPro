@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – LinkGuardian Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><div class="nav-logo-icon">🛡</div> LinkGuardian Pro</a>
+      <div class="nav-actions">
+        <a href="/login" class="btn btn-ghost btn-sm">Login</a>
+        <a href="/signup" class="btn btn-primary btn-sm">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="info-page">
+  <div class="container-sm">
+    <h1>Contact Us</h1>
+    <p class="subtitle">We typically respond within 24 hours on business days.</p>
+
+    <div style="display:grid;gap:var(--space-md);margin-bottom:var(--space-2xl);">
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--space-lg);">
+        <div style="font-family:var(--font-display);font-weight:700;margin-bottom:var(--space-sm);">📧 Email Support</div>
+        <a href="mailto:support@linkguardian.pro">support@linkguardian.pro</a>
+        <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">For general questions, billing, and account issues</p>
+      </div>
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--space-lg);">
+        <div style="font-family:var(--font-display);font-weight:700;margin-bottom:var(--space-sm);">🐛 Bug Reports</div>
+        <a href="mailto:bugs@linkguardian.pro">bugs@linkguardian.pro</a>
+        <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">For technical issues, false alerts, detection problems</p>
+      </div>
+      <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--space-lg);">
+        <div style="font-family:var(--font-display);font-weight:700;margin-bottom:var(--space-sm);">🔒 Privacy & Legal</div>
+        <a href="mailto:privacy@linkguardian.pro">privacy@linkguardian.pro</a>
+        <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">For data deletion requests and privacy concerns</p>
+      </div>
+    </div>
+
+    <h2>Send a Message</h2>
+    <div class="alert-box" id="contactAlert"></div>
+    <div style="display:flex;flex-direction:column;gap:var(--space-md);">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" id="cName" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="cEmail" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <select class="form-select" id="cSubject">
+          <option value="">Select a subject</option>
+          <option value="billing">Billing / Subscription</option>
+          <option value="bug">Bug Report</option>
+          <option value="feature">Feature Request</option>
+          <option value="account">Account Issue</option>
+          <option value="privacy">Privacy / Data</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-input" id="cMessage" rows="5" placeholder="Describe your issue or question..."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="sendContact()" style="align-self:flex-start">Send Message</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 LinkGuardian Pro. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function sendContact() {
+  const name    = document.getElementById('cName').value.trim();
+  const email   = document.getElementById('cEmail').value.trim();
+  const subject = document.getElementById('cSubject').value;
+  const message = document.getElementById('cMessage').value.trim();
+  const alert   = document.getElementById('contactAlert');
+
+  if (!email || !message) {
+    alert.textContent = 'Email and message are required.';
+    alert.className = 'alert-box show error';
+    return;
+  }
+
+  // In production, this would POST to a backend endpoint.
+  // For now, open mailto: link.
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`);
+  window.location.href = `mailto:support@linkguardian.pro?subject=${encodeURIComponent(subject || 'Contact from website')}&body=${body}`;
+
+  alert.textContent = 'Thank you! Opening your email client...';
+  alert.className = 'alert-box show success';
+}
+</script>
+</body>
+</html>

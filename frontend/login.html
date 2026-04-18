@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – LinkGuardian Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">🛡</div>
+        LinkGuardian Pro
+      </a>
+    </div>
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-subtitle">Sign in to your account to manage your links.</p>
+
+    <div class="alert-box" id="alertBox"></div>
+
+    <div class="auth-form">
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address</label>
+        <input type="email" class="form-input" id="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" class="form-input" id="password" placeholder="Your password" autocomplete="current-password" />
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;" id="loginBtn" onclick="doLogin()">
+        <span id="loginBtnText">Sign In</span>
+        <span class="spinner hidden" id="loginSpinner"></span>
+      </button>
+    </div>
+
+    <div class="auth-footer">
+      Don't have an account? <a href="/signup">Create one free →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+
+async function doLogin() {
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const btn      = document.getElementById('loginBtn');
+  const spinner  = document.getElementById('loginSpinner');
+  const btnText  = document.getElementById('loginBtnText');
+  const alertBox = document.getElementById('alertBox');
+
+  if (!email || !password) {
+    showAlert(alertBox, 'Please enter your email and password.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Signing in…';
+
+  try {
+    const resp = await fetch(`${API}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await resp.json();
+
+    if (resp.ok) {
+      showAlert(alertBox, 'Login successful! Redirecting…', 'success');
+      setTimeout(() => window.location.href = '/dashboard', 800);
+    } else {
+      showAlert(alertBox, data.error || 'Login failed. Try again.', 'error');
+    }
+  } catch (e) {
+    showAlert(alertBox, 'Network error. Check your connection.', 'error');
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Sign In';
+  }
+}
+
+function showAlert(el, msg, type) {
+  el.textContent = msg;
+  el.className = `alert-box show ${type}`;
+}
+
+// Enter key
+['email','password'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help & FAQ – LinkGuardian Pro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo"><div class="nav-logo-icon">🛡</div> LinkGuardian Pro</a>
+      <div class="nav-actions">
+        <a href="/login" class="btn btn-ghost btn-sm">Login</a>
+        <a href="/signup" class="btn btn-primary btn-sm">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="info-page">
+  <div class="container-sm">
+    <h1>Help & FAQ</h1>
+    <p class="subtitle">Find answers to common questions about LinkGuardian Pro.</p>
+
+    <h2>Getting Started</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I get started?</div>
+      <div class="faq-a">
+        1. Create a free account at linkguardian.pro/signup<br>
+        2. Add up to 5 links to monitor (free plan)<br>
+        3. Set up your Telegram Chat ID for alerts (optional but recommended)<br>
+        4. Links are checked automatically twice daily (6 AM and 6 PM UTC)<br>
+        5. You'll receive Telegram alerts instantly when a status changes
+      </div>
+    </div>
+
+    <div class="faq-item" id="telegram">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I find my Telegram Chat ID?</div>
+      <div class="faq-a">
+        Follow these steps to get your Telegram Chat ID:<br><br>
+        1. Open Telegram and search for <strong>@userinfobot</strong><br>
+        2. Start a chat and send /start<br>
+        3. The bot will reply with your Chat ID (a number like 123456789)<br>
+        4. Copy this number and paste it in Dashboard → Settings → Telegram Chat ID<br><br>
+        Alternatively, search for <strong>@RawDataBot</strong> and it will show your chat ID when you send any message.<br><br>
+        <strong>Important:</strong> You must also start a chat with our bot first. Our Telegram bot username will be shown in your dashboard settings page.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What does "multi-layer" detection mean?</div>
+      <div class="faq-a">
+        LinkGuardian uses three detection methods in sequence, falling back to the next if the previous fails:<br><br>
+        <strong>Layer 1 – Direct HTTP:</strong> Fastest method. Makes a direct HTTP request to the URL with browser-like headers. Works for most simple websites and some e-commerce sites. Typically completes in under 5 seconds.<br><br>
+        <strong>Layer 2 – ScraperAPI:</strong> Uses ScraperAPI's infrastructure to render JavaScript-heavy pages. More effective for sites like Amazon and Flipkart that block direct requests. Requires ScraperAPI key to be configured.<br><br>
+        <strong>Layer 3 – Playwright:</strong> Uses a full headless Chromium browser as the final fallback. Most accurate but slowest. Can handle any modern website but requires more server resources.
+      </div>
+    </div>
+
+    <h2>Link Monitoring</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How often are my links checked?</div>
+      <div class="faq-a">
+        <strong>Free and Pro plans:</strong> Twice daily — approximately 6 AM and 6 PM UTC (11:30 AM and 11:30 PM IST).<br><br>
+        <strong>Pro, Business, Agency plans:</strong> Can be set to hourly frequency per link via the Add Link modal.<br><br>
+        You can also trigger a manual check any time from your dashboard by clicking the "Check" button next to any link.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Why am I getting false "Out of Stock" alerts for my product?</div>
+      <div class="faq-a">
+        Out-of-stock detection uses keyword matching on the page HTML. False positives can occur when:<br><br>
+        • The product page contains out-of-stock text for <em>related products</em> or ads on the same page<br>
+        • The website uses non-standard wording not in our keyword list<br>
+        • The website is geo-restricted and shows different content to our servers<br>
+        • Amazon or Flipkart returns a CAPTCHA page instead of the product page<br>
+        • The page is dynamically loaded and our checker sees an incomplete version<br><br>
+        If you're getting consistent false positives for a specific URL, try using the "Check Now" button to see the current result and compare with what you see in your browser. You can also contact us to report persistent false positives so we can improve our keyword patterns.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Why does my Amazon link show as "Broken" even though it works in my browser?</div>
+      <div class="faq-a">
+        Amazon aggressively blocks automated requests. When Layer 1 (direct HTTP) is blocked, it may appear as an error or broken. Solutions:<br><br>
+        1. <strong>Enable ScraperAPI:</strong> Set up a ScraperAPI key for your account (Layer 2) — this bypasses most Amazon blocks<br>
+        2. <strong>Use a different URL format:</strong> Some Amazon URL formats are more bot-friendly than others<br>
+        3. <strong>Check the layer used:</strong> If the result shows "layer1", it means Layer 2/3 weren't available. Upgrade your plan or configure ScraperAPI<br><br>
+        Note: Monitoring Amazon links is challenging due to their anti-bot systems. Results may vary. See Terms of Service for our accuracy limitations.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What happens if I get too many false alerts?</div>
+      <div class="faq-a">
+        Our system sends alerts only once per status change — we don't spam you. If a link flaps between statuses (keeps changing), you'll get one alert per change.<br><br>
+        If you're getting false alerts frequently for a specific platform, you can:<br>
+        1. Delete the link and re-add it with a different platform setting<br>
+        2. Contact our support to report the issue<br>
+        3. Check if the URL itself has changed (use the free checker tool first)
+      </div>
+    </div>
+
+    <h2>Plans & Billing</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What happens when my plan expires?</div>
+      <div class="faq-a">
+        When your paid plan expires:<br><br>
+        1. Your account automatically reverts to the Free tier (5 link limit)<br>
+        2. Link monitoring is <strong>paused</strong> for links above the Free tier limit — they are NOT deleted<br>
+        3. You'll receive a Telegram alert at 7, 3, 1 days before expiry and on the day it expires<br>
+        4. When you renew, monitoring resumes for all your links up to your new plan limit<br><br>
+        <strong>Your data is safe.</strong> We never delete your links or history due to plan expiry.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is my data safe?</div>
+      <div class="faq-a">
+        Yes. We take data security seriously:<br><br>
+        • Passwords are hashed using SHA-256 — we never store plain-text passwords<br>
+        • All communication is encrypted via HTTPS<br>
+        • We use Supabase (PostgreSQL) hosted on secure infrastructure<br>
+        • Session tokens are randomly generated and expire after inactivity<br>
+        • We do not sell your data to third parties<br>
+        • Check history is automatically deleted after 90 days<br><br>
+        See our <a href="privacy.html">Privacy Policy</a> for full details.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I export my link data?</div>
+      <div class="faq-a">
+        Currently, you can view your links and check history in the dashboard. Export functionality (CSV download) is planned for a future update. Contact us if you need an urgent data export.
+      </div>
+    </div>
+
+    <h2>Technical Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">The free checker shows a different result than my dashboard check. Why?</div>
+      <div class="faq-a">
+        The free checker always uses Layer 1 only (direct HTTP) and has a rate limit. Dashboard checks use all available layers based on your plan. This means dashboard checks are generally more accurate, especially for complex sites.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What is the free checker rate limit?</div>
+      <div class="faq-a">
+        The free checker (on the homepage) allows up to 10 checks per hour per IP address. This limit exists to prevent abuse. Creating a free account gives you unlimited manual checks from the dashboard.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2024 LinkGuardian Pro. Still have questions? <a href="contact.html">Contact us →</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  el.parentElement.classList.toggle('open');
+}
+</script>
+</body>
+</html>
