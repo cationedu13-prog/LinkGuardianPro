@@ -27,17 +27,17 @@
     <div style="display:grid;gap:var(--space-md);margin-bottom:var(--space-2xl);">
       <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--space-lg);">
         <div style="font-family:var(--font-display);font-weight:700;margin-bottom:var(--space-sm);">📧 Email Support</div>
-        <a href="mailto:support@linkguardian.pro">support@linkguardian.pro</a>
+        <a href="mailto: linkmoniter@gmail.com">linkmoniter@gmail.com</a>
         <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">For general questions, billing, and account issues</p>
       </div>
       <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--space-lg);">
         <div style="font-family:var(--font-display);font-weight:700;margin-bottom:var(--space-sm);">🐛 Bug Reports</div>
-        <a href="mailto:bugs@linkguardian.pro">bugs@linkguardian.pro</a>
+        <a href="mailto: linkmoniter@gmail.com">linkmoniter@gmail.com</a>
         <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">For technical issues, false alerts, detection problems</p>
       </div>
       <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--space-lg);">
         <div style="font-family:var(--font-display);font-weight:700;margin-bottom:var(--space-sm);">🔒 Privacy & Legal</div>
-        <a href="mailto:privacy@linkguardian.pro">privacy@linkguardian.pro</a>
+        <a href="mailto: linkmoniter@gmail.com">privacy@linkguardian.pro</a>
         <p style="font-size:0.82rem;color:var(--text-3);margin-top:4px;">For data deletion requests and privacy concerns</p>
       </div>
     </div>
@@ -99,7 +99,7 @@ function sendContact() {
   // In production, this would POST to a backend endpoint.
   // For now, open mailto: link.
   const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`);
-  window.location.href = `mailto:support@linkguardian.pro?subject=${encodeURIComponent(subject || 'Contact from website')}&body=${body}`;
+  window.location.href = `mailto: linkmoniter@gmail.com?subject=${encodeURIComponent(subject || 'Contact from website')}&body=${body}`;
 
   alert.textContent = 'Thank you! Opening your email client...';
   alert.className = 'alert-box show success';
