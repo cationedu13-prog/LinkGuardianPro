@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service – LinkGuardian Pro</title>
+  <style>
+    :root {
+      --bg: #0B0F1A;
+      --surface: #151B28;
+      --surface-2: #1B2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --text-1: #F8FAFC;
+      --text-2: #CBD5E1;
+      --text-3: #94A3B8;
+      --cyan: #00E5FF;
+      --cyan-soft: rgba(0,229,255,0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .nav-links a {
+      color: var(--text-3);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--cyan);
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--surface-2);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: #000;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* ── Main Content ── */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .date {
+      color: var(--text-3);
+      font-size: 0.85rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+    }
+    .card section {
+      margin-bottom: 2rem;
+    }
+    .card h2 {
+      color: var(--cyan);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .card p {
+      color: var(--text-2);
+      margin-bottom: 0.75rem;
+      line-height: 1.65;
+    }
+    .card ul {
+      margin: 0.75rem 0 1rem 1.5rem;
+      color: var(--text-2);
+    }
+    .card li {
+      margin-bottom: 0.25rem;
+    }
+    .card strong {
+      color: var(--text-1);
+    }
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-3);
+      font-size: 0.8rem;
+      margin-top: 2rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .footer-links a {
+      color: var(--text-3);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      .nav-links, .nav-buttons {
+        justify-content: center;
+      }
+      .card {
+        padding: 1.5rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .container {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">LinkGuardian Pro</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="help.html">Help</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-buttons">
+    <a href="/login" class="btn btn-outline">Login</a>
+    <a href="/signup" class="btn btn-primary">Sign Up Free</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="header">
+    <div class="badge">Legal</div>
+    <h1>Terms of Service</h1>
+    <div class="date">Last updated: January 2024</div>
+  </div>
+
+  <div class="card">
+    <p>Welcome to LinkGuardian Pro ("Service", "we", "our"). By accessing or using our Service, you agree to be bound by these Terms of Service. Please read them carefully.</p>
+
+    <section>
+      <h2>1. Description of Service</h2>
+      <p>LinkGuardian Pro is a web-based link monitoring service that automatically checks URLs for availability, broken link status, and product out-of-stock conditions. We provide automated checks, status reporting, and alerts via Telegram.</p>
+    </section>
+
+    <section>
+      <h2>2. Supported Link Types</h2>
+      <p>Our Service is designed to monitor the following types of URLs:</p>
+      <ul>
+        <li>Amazon India (amazon.in) and Amazon.com product pages</li>
+        <li>Flipkart product listings</li>
+        <li>Shopify-based e-commerce stores</li>
+        <li>Etsy listings</li>
+        <li>WordPress and blog pages</li>
+        <li>WooCommerce store products</li>
+        <li>Generic HTTP/HTTPS URLs (websites, landing pages, etc.)</li>
+      </ul>
+      <p><strong>Important:</strong> Monitoring accuracy varies significantly by platform and website. We make no guarantee that our service will work for every website or URL type.</p>
+    </section>
+
+    <section>
+      <h2>3. Limitations and Disclaimers</h2>
+      <p><strong>NO GUARANTEE OF ACCURACY:</strong> LinkGuardian Pro does not guarantee 100% accuracy in detecting broken links, out-of-stock status, or any other link condition. False positives (incorrectly flagging active links as broken or out-of-stock) and false negatives (failing to detect broken links) can and do occur.</p>
+      <p><strong>FALSE ALERTS:</strong> Certain websites, particularly large e-commerce platforms with aggressive bot-detection, may cause false alerts. This includes but is not limited to: sites that return 200 OK even for missing products, sites that use JavaScript-heavy rendering, geographically restricted content, and sites requiring cookies or sessions.</p>
+      <p><strong>UNSUPPORTED SITES:</strong> Many websites actively block automated requests. Checks on such sites may fail, return incorrect results, or be inconsistent. We are not liable for monitoring failures on sites that block automated access.</p>
+      <p><strong>NETWORK AND THIRD-PARTY DEPENDENCIES:</strong> Our monitoring relies on third-party services including ScraperAPI and Playwright. Downtime or changes in these services may affect monitoring accuracy.</p>
+      <p><strong>RESPONSE TIMES:</strong> Reported response times are indicative only and depend on network conditions, server load, and detection layer used.</p>
+    </section>
+
+    <section>
+      <h2>4. User Responsibilities</h2>
+      <ul>
+        <li>Only monitor URLs you have the legal right to access</li>
+        <li>Not use the Service to conduct denial-of-service attacks or overload websites</li>
+        <li>Comply with the Terms of Service of websites you monitor</li>
+        <li>Not use the Service for illegal purposes</li>
+        <li>Keep your account credentials secure and not share them</li>
+        <li>Provide accurate information during registration</li>
+        <li>Not attempt to circumvent plan limits or rate limits</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>5. Subscription Plans and Payments</h2>
+      <p><strong>Free Plan:</strong> Available indefinitely with a limit of 5 monitored links and basic features. No payment required.</p>
+      <p><strong>Paid Plans:</strong> Pro, Business, and Agency plans are billed monthly. Subscription fees are non-refundable except where required by law.</p>
+      <p><strong>Plan Expiry:</strong> Upon expiry of a paid plan, your account automatically reverts to Free tier limits. Links exceeding the Free tier limit (5) will be paused — not deleted. Renewing your plan will resume monitoring of all previously active links up to the new plan limit.</p>
+      <p><strong>Price Changes:</strong> We reserve the right to change pricing with 30 days' notice. Existing subscriptions will honour the original price until renewal.</p>
+    </section>
+
+    <section>
+      <h2>6. Disclaimer of Warranties</h2>
+      <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.</p>
+    </section>
+
+    <section>
+      <h2>7. Limitation of Liability</h2>
+      <p>TO THE FULLEST EXTENT PERMITTED BY LAW, LINKGUARDIAN PRO SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS, DATA, OR BUSINESS OPPORTUNITIES, ARISING OUT OF OR RELATED TO YOUR USE OF THE SERVICE, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+      <p>Our total liability to you for any claims arising from use of the Service shall not exceed the amount you paid for the Service in the three months preceding the claim.</p>
+    </section>
+
+    <section>
+      <h2>8. Data and Privacy</h2>
+      <p>We collect and process data as described in our <a href="privacy.html">Privacy Policy</a>. We store your monitored URLs and check history for up to 90 days. You can delete your data at any time through your account settings or by contacting us.</p>
+    </section>
+
+    <section>
+      <h2>9. Termination</h2>
+      <p>We reserve the right to terminate or suspend your account at any time for violation of these Terms. You may delete your account at any time by contacting us at the email below.</p>
+    </section>
+
+    <section>
+      <h2>10. Changes to Terms</h2>
+      <p>We may modify these Terms at any time. Significant changes will be communicated via email or a dashboard notice. Continued use after changes constitutes acceptance.</p>
+    </section>
+
+    <section>
+      <h2>11. Contact</h2>
+      <p>For questions about these Terms, contact us at: <a href="contact.html">contact page</a> or email: support@linkguardian.pro</p>
+      <p>Governing law: These Terms are governed by the laws of India.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2024 LinkGuardian Pro. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
