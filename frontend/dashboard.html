@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – LinkGuardian Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg:       '#0B0F1A',
+            surface:  '#151B28',
+            surface2: '#1B2230',
+            cyan2:    '#00E5FF',
+            text1:    '#F8FAFC',
+            text2:    '#CBD5E1',
+            text3:    '#94A3B8',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(0,229,255,0.4), 0 8px 30px -8px rgba(0,229,255,0.35)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #0B0F1A;
+      --surface: #151B28;
+      --surface-2: #1B2230;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.14);
+      --text-1: #F8FAFC;
+      --text-2: #CBD5E1;
+      --text-3: #94A3B8;
+      --cyan: #00E5FF;
+      --cyan-soft: rgba(0,229,255,0.12);
+      --green: #4ADE80;
+      --green-bg: rgba(74,222,128,0.12);
+      --red: #F87171;
+      --red-bg: rgba(248,113,113,0.12);
+      --yellow: #FBBF24;
+      --yellow-bg: rgba(251,191,36,0.12);
+      --font-display: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --r-sm: 8px;
+      --r-md: 12px;
+      --r-lg: 16px;
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-lg: 20px;
+      --space-xl: 28px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-1);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── Layout ───────────────────────────────────────── */
+    .dash-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ──────────────────────────────────────── */
+    .dash-sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100vh;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 24px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transform: translateX(-100%);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+      z-index: 60;
+    }
+    .dash-sidebar.open { transform: translateX(0); }
+
+    .dash-sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,15,0.65);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 55;
+    }
+    .dash-sidebar-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .dash-sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 4px 8px 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--cyan), #38bdf8);
+      color: #001018;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .dash-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--text-2);
+      font-size: 0.92rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+      user-select: none;
+    }
+    .dash-nav-item:hover {
+      background: var(--surface-2);
+      color: var(--text-1);
+    }
+    .dash-nav-item.active {
+      background: var(--cyan-soft);
+      color: var(--cyan);
+    }
+    .dash-nav-item .icon { font-size: 1rem; width: 20px; text-align: center; }
+
+    .dash-plan-box {
+      margin-top: auto;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: var(--r-md);
+    }
+    .dash-plan-box h5 {
+      margin: 0 0 6px;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-3);
+      font-weight: 600;
+    }
+
+    /* ── Main ─────────────────────────────────────────── */
+    .dash-main {
+      flex: 1;
+      margin-left: 0;
+      padding: 20px;
+      min-width: 0;
+    }
+
+    /* ── Topbar ───────────────────────────────────────── */
+    .dash-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .dash-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .dash-hamburger {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      width: 40px;
+      height: 40px;
+      padding: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .dash-hamburger:hover { background: var(--surface-2); }
+    .dash-hamburger span {
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: var(--text-1);
+      border-radius: 1px;
+    }
+
+    /* ── Buttons ──────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+      white-space: nowrap;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-sm { padding: 7px 12px; font-size: 0.8rem; border-radius: 8px; }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), #22d3ee);
+      color: #001018;
+      box-shadow: 0 4px 14px -4px rgba(0,229,255,0.5);
+    }
+    .btn-primary:hover { box-shadow: 0 6px 22px -4px rgba(0,229,255,0.6); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-ghost {
+      background: var(--surface-2);
+      color: var(--text-1);
+      border-color: var(--border);
+    }
+    .btn-ghost:hover { background: #232b3c; border-color: var(--border-strong); }
+    .btn-danger {
+      background: var(--red-bg);
+      color: var(--red);
+      border-color: rgba(248,113,113,0.25);
+    }
+    .btn-danger:hover { background: rgba(248,113,113,0.2); }
+
+    /* ── Stats ────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 18px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .stat-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+    .stat-card-label {
+      font-size: 0.78rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .stat-card-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-1);
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Links section ────────────────────────────────── */
+    .links-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .links-header h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--r-md);
+    }
+    .empty-state-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .empty-state h3 { margin: 0 0 6px; font-size: 1.05rem; font-weight: 700; }
+    .empty-state p { margin: 0; color: var(--text-3); font-size: 0.9rem; }
+
+    .links-table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .links-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+    .links-table th {
+      text-align: left;
+      padding: 14px 16px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-3);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .links-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+      vertical-align: middle;
+    }
+    .links-table tbody tr:last-child td { border-bottom: none; }
+    .links-table tbody tr { transition: background 0.15s ease; }
+    .links-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .link-name { font-weight: 600; color: var(--text-1); margin-bottom: 2px; }
+    .link-url {
+      font-size: 0.76rem;
+      color: var(--text-3);
+      font-family: var(--font-mono);
+      max-width: 260px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-group {
+      display: inline-flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    /* ── Badges ───────────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .badge-active       { background: var(--green-bg); color: var(--green); border-color: rgba(74,222,128,0.25); }
+    .badge-broken       { background: var(--red-bg); color: var(--red); border-color: rgba(248,113,113,0.25); }
+    .badge-out_of_stock { background: var(--yellow-bg); color: var(--yellow); border-color: rgba(251,191,36,0.25); }
+    .badge-error        { background: var(--red-bg); color: var(--red); border-color: rgba(248,113,113,0.25); }
+    .badge-pending      { background: rgba(148,163,184,0.12); color: var(--text-3); border-color: rgba(148,163,184,0.25); }
+
+    /* ── Forms ────────────────────────────────────────── */
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-2);
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-1);
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(0,229,255,0.15);
+    }
+    .form-input:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%), linear-gradient(135deg, var(--text-3) 50%, transparent 50%); background-position: calc(100% - 18px) center, calc(100% - 13px) center; background-size: 5px 5px, 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+
+    /* ── Alert ────────────────────────────────────────── */
+    .alert-box {
+      display: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 0.86rem;
+      margin-bottom: 12px;
+    }
+    .alert-box.show { display: block; }
+    .alert-box.success { background: var(--green-bg); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+    .alert-box.error   { background: var(--red-bg); color: var(--red); border: 1px solid rgba(248,113,113,0.25); }
+
+    /* ── Modal ────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5,8,15,0.7);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.18s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal {
+      width: 90%;
+      max-width: 480px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+      animation: popIn 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    @keyframes popIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .modal-header h3 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-3);
+      font-size: 1.6rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .modal-close:hover { background: var(--surface-2); color: var(--text-1); }
+    .modal-form { display: flex; flex-direction: column; gap: 14px; }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    /* ── Spinner ──────────────────────────────────────── */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ────────────────────────────────────────── */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 200;
+    }
+    .toast {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      color: var(--text-1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      animation: slideIn 0.25s ease;
+    }
+    .toast.success { border-color: rgba(74,222,128,0.4); }
+    .toast.error   { border-color: rgba(248,113,113,0.4); }
+    .toast.success > span:first-child { color: var(--green); }
+    .toast.error   > span:first-child { color: var(--red); }
+    @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    a { color: var(--cyan); }
+
+    /* ── Responsive ───────────────────────────────────── */
+    @media (min-width: 768px) {
+      .dash-sidebar {
+        transform: translateX(0);
+        position: sticky;
+        height: 100vh;
+      }
+      .dash-sidebar-backdrop { display: none !important; }
+      .dash-hamburger { display: none; }
+      .dash-main { padding: 32px 40px; }
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="dash-layout">
+
+  <!-- Sidebar backdrop (mobile overlay — tap to close) -->
+  <div class="dash-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- Sidebar -->
+  <aside class="dash-sidebar" id="sidebar">
+    <div class="dash-sidebar-logo">
+      <div class="nav-logo-icon" style="width:28px;height:28px;font-size:0.9rem;">🛡</div>
+      <span>LinkGuardian</span>
+    </div>
+
+    <nav>
+      <div class="dash-nav-item active" onclick="showSection('links')">
+        <span class="icon">🔗</span> My Links
+      </div>
+      <div class="dash-nav-item" onclick="showSection('settings')">
+        <span class="icon">⚙️</span> Settings
+      </div>
+      <a href="/" class="dash-nav-item" style="text-decoration:none">
+        <span class="icon">🏠</span> Home
+      </a>
+      <a href="help.html" class="dash-nav-item" style="text-decoration:none">
+        <span class="icon">❓</span> Help
+      </a>
+      <div class="dash-nav-item" onclick="doLogout()" style="color:var(--red)">
+        <span class="icon">🚪</span> Logout
+      </div>
+    </nav>
+
+    <div class="dash-plan-box" id="planBox">
+      <h5>Current Plan</h5>
+      <div id="planName" style="font-family:var(--font-display);font-weight:700;margin-bottom:4px;">—</div>
+      <div id="planExpiry" style="color:var(--text-3);font-size:0.78rem;"></div>
+      <a href="#pricing" id="renewBtn" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:10px;display:none;">Renew Now</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="dash-main">
+    <!-- Topbar -->
+    <div class="dash-topbar">
+      <div class="dash-topbar-left">
+        <button class="dash-hamburger" id="hamburger" aria-label="Toggle sidebar" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+        <div>
+          <h1 style="font-size:1.3rem;font-weight:800;" id="pageTitle">My Links</h1>
+          <p style="font-size:0.82rem;color:var(--text-3);margin-top:2px;" id="welcomeMsg">Welcome back!</p>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openAddModal()">
+        + Add New Link
+      </button>
+    </div>
+
+    <!-- Plan Expiry Banner -->
+    <div id="expiryBanner" style="display:none;background:var(--red-bg);border:1px solid rgba(248,113,113,0.3);border-radius:var(--r-md);padding:var(--space-md);margin-bottom:var(--space-lg);display:none;">
+      <strong style="color:var(--red);">⚠️ Plan Expired</strong>
+      <span style="color:var(--text-2);font-size:0.9rem;margin-left:8px;">Your plan has expired. Link monitoring is paused.</span>
+      <a href="#" style="margin-left:12px;font-size:0.88rem;" class="btn btn-danger btn-sm">Renew Now</a>
+    </div>
+
+    <!-- Section: Links -->
+    <div id="section-links">
+      <!-- Stats -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-card-label">Total Links</div>
+          <div class="stat-card-num" id="statTotal">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Active</div>
+          <div class="stat-card-num" style="color:var(--green)" id="statActive">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Broken</div>
+          <div class="stat-card-num" style="color:var(--red)" id="statBroken">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Out of Stock</div>
+          <div class="stat-card-num" style="color:var(--yellow)" id="statOOS">—</div>
+        </div>
+      </div>
+
+      <!-- Links Table -->
+      <div class="links-header">
+        <h2>Monitored Links</h2>
+        <span id="planLimitNote" style="font-size:0.82rem;color:var(--text-3);"></span>
+      </div>
+
+      <div id="linksLoading" style="text-align:center;padding:var(--space-xl);color:var(--text-3);">
+        <div class="spinner" style="margin:0 auto var(--space-md);width:28px;height:28px;border-width:3px;"></div>
+        Loading links…
+      </div>
+
+      <div class="empty-state hidden" id="emptyState">
+        <div class="empty-state-icon">🔗</div>
+        <h3>No links yet</h3>
+        <p>Add your first link to start monitoring.</p>
+        <button class="btn btn-primary" style="margin-top:var(--space-md)" onclick="openAddModal()">+ Add Your First Link</button>
+      </div>
+
+      <div class="links-table-wrap hidden" id="linksTableWrap">
+        <table class="links-table" id="linksTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Platform</th>
+              <th>Last Checked</th>
+              <th>Response</th>
+              <th>Layer</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="linksBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section: Settings -->
+    <div id="section-settings" style="display:none;max-width:520px;">
+      <h2 style="font-size:1.1rem;font-weight:700;margin-bottom:var(--space-xl);">Account Settings</h2>
+      <div class="alert-box" id="settingsAlert"></div>
+      <div style="display:flex;flex-direction:column;gap:var(--space-md);">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="settingsEmail" disabled />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" id="settingsName" placeholder="Your name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Telegram Chat ID</label>
+          <input type="text" class="form-input" id="settingsTgId" placeholder="e.g. 123456789" />
+          <span style="font-size:0.78rem;color:var(--text-3);margin-top:4px;display:block;">
+            How to find your Chat ID: <a href="help.html#telegram" target="_blank">see Help →</a>
+          </span>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Add Link Modal ────────────────────────────────────────── -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Add New Link</h3>
+      <button class="modal-close" onclick="closeAddModal()">×</button>
+    </div>
+    <div class="alert-box" id="addModalAlert"></div>
+    <div class="modal-form">
+      <div class="form-group">
+        <label class="form-label">Link Name</label>
+        <input type="text" class="form-input" id="addName" placeholder="e.g. My Amazon Product" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">URL</label>
+        <input type="url" class="form-input" id="addUrl" placeholder="https://www.amazon.in/dp/..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Platform</label>
+        <select class="form-select" id="addPlatform">
+          <option value="generic">Generic / Other</option>
+          <option value="amazon">Amazon</option>
+          <option value="flipkart">Flipkart</option>
+          <option value="shopify">Shopify</option>
+          <option value="etsy">Etsy</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Check Frequency</label>
+        <select class="form-select" id="addFrequency">
+          <option value="twice_daily">Twice Daily (default)</option>
+          <option value="daily">Daily</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeAddModal()">Cancel</button>
+      <button class="btn btn-primary" id="addLinkBtn" onclick="addLink()">
+        <span id="addLinkBtnText">Add Link</span>
+        <span class="spinner hidden" id="addLinkSpinner"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast Container ───────────────────────────────────────── -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+const API = '';
+let currentUser = null;
+let links       = [];
+
+// ── Init ─────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', async function () {
+  await loadUser();
+  await loadLinks();
+});
+
+async function loadUser() {
+  try {
+    const resp = await fetch(`${API}/api/user`, { credentials: 'include' });
+    if (resp.status === 401) {
+      window.location.href = '/login';
+      return;
+    }
+    currentUser = await resp.json();
+    applyUserUI(currentUser);
+  } catch (e) {
+    window.location.href = '/login';
+  }
+}
+
+function applyUserUI(u) {
+  document.getElementById('welcomeMsg').textContent =
+    `Welcome back, ${u.full_name || u.email}!`;
+  document.getElementById('planName').textContent = u.plan.toUpperCase();
+
+  if (u.plan !== 'free') {
+    const expiry = u.days_left;
+    if (expiry !== null && expiry <= 7) {
+      const el = document.getElementById('planExpiry');
+      el.textContent = expiry <= 0 ? 'Expired!' : `${expiry} days left`;
+      el.style.color = expiry <= 3 ? 'var(--red)' : 'var(--yellow)';
+    }
+    if (!u.plan_active) {
+      document.getElementById('expiryBanner').style.display = 'flex';
+    }
+    if (u.days_left !== null && u.days_left <= 7) {
+      document.getElementById('renewBtn').style.display = 'flex';
+    }
+  }
+
+  document.getElementById('settingsEmail').value = u.email        || '';
+  document.getElementById('settingsName').value  = u.full_name    || '';
+  document.getElementById('settingsTgId').value  = u.telegram_chat_id || '';
+
+  document.getElementById('planLimitNote').textContent =
+    `${links.length}/${u.max_links} links (${u.plan} plan)`;
+}
+
+// ── Links ─────────────────────────────────────────────────────
+async function loadLinks() {
+  document.getElementById('linksLoading').style.display = 'block';
+  document.getElementById('emptyState').classList.add('hidden');
+  document.getElementById('linksTableWrap').classList.add('hidden');
+  try {
+    const resp = await fetch(`${API}/api/links`, { credentials: 'include' });
+    if (!resp.ok) return;
+    links = await resp.json();
+    renderLinks(links);
+    renderStats(links);
+    if (currentUser) {
+      document.getElementById('planLimitNote').textContent =
+        `${links.length}/${currentUser.max_links} links (${currentUser.plan} plan)`;
+    }
+  } catch (e) {
+    toast('Failed to load links', 'error');
+  } finally {
+    document.getElementById('linksLoading').style.display = 'none';
+  }
+}
+
+function renderLinks(list) {
+  const tbody = document.getElementById('linksBody');
+  if (!list.length) {
+    document.getElementById('emptyState').classList.remove('hidden');
+    document.getElementById('linksTableWrap').classList.add('hidden');
+    return;
+  }
+  document.getElementById('emptyState').classList.add('hidden');
+  document.getElementById('linksTableWrap').classList.remove('hidden');
+
+  tbody.innerHTML = list.map(function (l) {
+    return `
+    <tr id="row-${l.id}">
+      <td>
+        <div class="link-name">${esc(l.name)}</div>
+        <div class="link-url">${esc(l.url)}</div>
+      </td>
+      <td>${buildBadge(l.status)}</td>
+      <td><span style="font-size:0.82rem;color:var(--text-3)">${esc(l.platform)}</span></td>
+      <td><span style="font-size:0.82rem;color:var(--text-3)">${formatDate(l.last_checked)}</span></td>
+      <td><span style="font-family:var(--font-mono);font-size:0.82rem">${l.response_time ? l.response_time + 'ms' : '—'}</span></td>
+      <td><span style="font-size:0.78rem;color:var(--text-3)">${l.layer_used || '—'}</span></td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-ghost btn-sm" onclick="checkLinkNow('${l.id}')">
+            <span id="check-txt-${l.id}">Check</span>
+            <span class="spinner hidden" id="check-sp-${l.id}" style="width:14px;height:14px;"></span>
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="deleteLink('${l.id}', this)">Delete</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderStats(list) {
+  document.getElementById('statTotal').textContent  = list.length;
+  document.getElementById('statActive').textContent = list.filter(function (l) { return l.status === 'active'; }).length;
+  document.getElementById('statBroken').textContent = list.filter(function (l) { return l.status === 'broken'; }).length;
+  document.getElementById('statOOS').textContent    = list.filter(function (l) { return l.status === 'out_of_stock'; }).length;
+}
+
+// ── Add Link ──────────────────────────────────────────────────
+function openAddModal() {
+  const modal = document.getElementById('addModal');
+  modal.classList.add('open');
+  modal.dataset.triggerId = 'addModalTrigger'; // used by modal close for focus return
+  document.getElementById('addModalAlert').className = 'alert-box';
+}
+
+function closeAddModal() {
+  document.getElementById('addModal').classList.remove('open');
+}
+
+async function addLink() {
+  const name      = document.getElementById('addName').value.trim();
+  const url       = document.getElementById('addUrl').value.trim();
+  const platform  = document.getElementById('addPlatform').value;
+  const frequency = document.getElementById('addFrequency').value;
+  const btn       = document.getElementById('addLinkBtn');
+  const spinner   = document.getElementById('addLinkSpinner');
+  const btnText   = document.getElementById('addLinkBtnText');
+  const alertEl   = document.getElementById('addModalAlert');
+
+  if (!url) { showAlert(alertEl, 'URL is required.', 'error'); return; }
+
+  btn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Adding…';
+
+  try {
+    const resp = await fetch(`${API}/api/links`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ name, url, platform, frequency }),
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      closeAddModal();
+      toast('Link added!', 'success');
+      ['addName', 'addUrl'].forEach(function (id) {
+        document.getElementById(id).value = '';
+      });
+      await loadLinks();
+    } else {
+      showAlert(alertEl, data.error || 'Failed to add link.', 'error');
+    }
+  } catch (e) {
+    showAlert(alertEl, 'Network error.', 'error');
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Add Link';
+  }
+}
+
+// ── Check Link Now ────────────────────────────────────────────
+async function checkLinkNow(id) {
+  const btnTxt = document.getElementById(`check-txt-${id}`);
+  const sp     = document.getElementById(`check-sp-${id}`);
+  if (!btnTxt) return;
+  btnTxt.textContent = '…';
+  sp.classList.remove('hidden');
+  try {
+    const resp = await fetch(`${API}/api/links/${id}/check`, {
+      method: 'POST', credentials: 'include'
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      const row = document.getElementById(`row-${id}`);
+      if (row) {
+        row.cells[1].innerHTML = buildBadge(data.status);
+        row.cells[4].innerHTML = `<span style="font-family:var(--font-mono);font-size:0.82rem">${data.response_time ? data.response_time + 'ms' : '—'}</span>`;
+        row.cells[5].innerHTML = `<span style="font-size:0.78rem;color:var(--text-3)">${data.layer_used || '—'}</span>`;
+        row.cells[3].innerHTML = `<span style="font-size:0.82rem;color:var(--text-3)">Just now</span>`;
+      }
+      const lk = links.find(function (l) { return l.id === id; });
+      if (lk) { lk.status = data.status; renderStats(links); }
+      toast(`Status: ${data.status}`, data.status === 'active' ? 'success' : 'error');
+    } else {
+      toast(data.error || 'Check failed', 'error');
+    }
+  } catch (e) {
+    toast('Network error', 'error');
+  } finally {
+    btnTxt.textContent = 'Check';
+    sp.classList.add('hidden');
+  }
+}
+
+// ── Delete Link ───────────────────────────────────────────────
+async function deleteLink(id, btn) {
+  if (!confirm('Remove this link from monitoring?')) return;
+  btn.disabled = true;
+  try {
+    const resp = await fetch(`${API}/api/links/${id}`, {
+      method: 'DELETE', credentials: 'include'
+    });
+    if (resp.ok) {
+      const row = document.getElementById(`row-${id}`);
+      if (row) row.remove();
+      links = links.filter(function (l) { return l.id !== id; });
+      renderStats(links);
+      if (!links.length) renderLinks([]);
+      toast('Link removed', 'success');
+    } else {
+      toast('Failed to delete', 'error');
+      btn.disabled = false;
+    }
+  } catch (e) {
+    toast('Network error', 'error');
+    btn.disabled = false;
+  }
+}
+
+// ── Settings ──────────────────────────────────────────────────
+async function saveSettings() {
+  const alertEl = document.getElementById('settingsAlert');
+  const data = {
+    full_name:        document.getElementById('settingsName').value.trim(),
+    telegram_chat_id: document.getElementById('settingsTgId').value.trim(),
+  };
+  try {
+    const resp = await fetch(`${API}/api/user/settings`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+    const res = await resp.json();
+    if (resp.ok) showAlert(alertEl, 'Settings saved!', 'success');
+    else showAlert(alertEl, res.error || 'Save failed', 'error');
+  } catch (e) {
+    showAlert(alertEl, 'Network error', 'error');
+  }
+}
+
+// ── Logout ────────────────────────────────────────────────────
+async function doLogout() {
+  await fetch(`${API}/api/logout`, { method: 'POST', credentials: 'include' });
+  window.location.href = '/';
+}
+
+// ── Section switching ─────────────────────────────────────────
+function showSection(name) {
+  ['links', 'settings'].forEach(function (s) {
+    const el = document.getElementById(`section-${s}`);
+    if (el) el.style.display = s === name ? '' : 'none';
+  });
+  document.querySelectorAll('.dash-nav-item').forEach(function (el) {
+    el.classList.toggle('active', el.textContent.trim().toLowerCase().includes(name));
+  });
+  const titles = { links: 'My Links', settings: 'Account Settings' };
+  document.getElementById('pageTitle').textContent = titles[name] || '';
+}
+
+// ── Sidebar: toggle, outside click, Escape, desktop guard ────
+(function () {
+  const hamburger = document.getElementById('hamburger');
+  const sidebar   = document.getElementById('sidebar');
+  const backdrop  = document.getElementById('sidebarBackdrop');
+  if (!hamburger || !sidebar) return;
+
+  const DESKTOP = 768;
+
+  function isDesktop() { return window.innerWidth >= DESKTOP; }
+  function isOpen()    { return sidebar.classList.contains('open'); }
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    if (backdrop) backdrop.classList.add('open');
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    if (backdrop) backdrop.classList.remove('open');
+  }
+
+  // Hamburger click
+  hamburger.addEventListener('click', function (e) {
+    e.stopPropagation();
+    isOpen() ? closeSidebar() : openSidebar();
+  });
+
+  // Backdrop tap closes sidebar on mobile
+  if (backdrop) {
+    backdrop.addEventListener('click', closeSidebar);
+  }
+
+  // Outside click closes sidebar (mobile only)
+  document.addEventListener('click', function (e) {
+    if (isDesktop()) return;
+    if (isOpen() && !sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+      closeSidebar();
+    }
+  });
+
+  // Escape key closes sidebar (mobile only); returns focus to hamburger
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isOpen() && !isDesktop()) {
+      closeSidebar();
+      hamburger.focus();
+    }
+  });
+
+  // On resize to desktop: strip open state so CSS sticky layout takes over cleanly.
+  // On resize back to mobile: sidebar starts closed.
+  window.addEventListener('resize', function () {
+    if (isDesktop()) {
+      sidebar.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+  });
+})();
+
+// ── Modal: outside click and Escape to close ─────────────────
+(function () {
+  function closeModal(overlay) {
+    overlay.classList.remove('open');
+    // Return focus to the button that opened it, if tracked
+    const triggerId = overlay.dataset.triggerId;
+    if (triggerId) {
+      const trigger = document.getElementById(triggerId);
+      if (trigger) trigger.focus();
+    }
+  }
+
+  // Click on the overlay background (outside .modal box) closes it
+  document.querySelectorAll('.modal-overlay').forEach(function (overlay) {
+    const modal = overlay.querySelector('.modal');
+    if (!modal) return;
+    overlay.addEventListener('click', function (e) {
+      if (!modal.contains(e.target)) {
+        closeModal(overlay);
+      }
+    });
+  });
+
+  // Escape key closes any open modal
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.modal-overlay.open').forEach(closeModal);
+  });
+})();
+
+// ── Helpers ───────────────────────────────────────────────────
+function buildBadge(status) {
+  const map = {
+    active: 'Active', broken: 'Broken',
+    out_of_stock: 'Out of Stock', error: 'Error', pending: 'Pending'
+  };
+  return `<span class="badge badge-${status || 'pending'}"><span class="badge-dot"></span>${map[status] || status}</span>`;
+}
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  const d      = new Date(iso);
+  const now    = new Date();
+  const diffMs = now - d;
+  if (diffMs < 60000)    return 'Just now';
+  if (diffMs < 3600000)  return `${Math.floor(diffMs / 60000)}m ago`;
+  if (diffMs < 86400000) return `${Math.floor(diffMs / 3600000)}h ago`;
+  return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+}
+
+function esc(s) {
+  return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function showAlert(el, msg, type) {
+  el.textContent = msg;
+  el.className = `alert-box show ${type}`;
+}
+
+function toast(msg, type = 'success') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${type === 'success' ? '✓' : '✗'}</span> ${esc(msg)}`;
+  c.appendChild(t);
+  setTimeout(function () { t.remove(); }, 3500);
+}
+</script>
+</body>
+</html>
