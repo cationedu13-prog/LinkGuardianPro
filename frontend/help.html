@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help & FAQ – LinkGuardian Pro</title>
+  <style>
+    :root {
+      --bg: #0B0F1A;
+      --surface: #151B28;
+      --surface-2: #1B2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --text-1: #F8FAFC;
+      --text-2: #CBD5E1;
+      --text-3: #94A3B8;
+      --cyan: #00E5FF;
+      --cyan-soft: rgba(0,229,255,0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11, 15, 26, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--cyan);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .nav-links a {
+      color: var(--text-3);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--cyan);
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: var(--surface-2);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: #000;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* Main container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      color: var(--text-3);
+      font-size: 0.9rem;
+    }
+
+    /* FAQ accordion */
+    .faq-section {
+      margin-top: 1.5rem;
+    }
+    .faq-section h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 1.5rem 0 1rem;
+      color: var(--cyan);
+      border-left: 3px solid var(--cyan);
+      padding-left: 0.75rem;
+    }
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.15s;
+      color: var(--text-1);
+    }
+    .faq-q:hover {
+      background: var(--surface-2);
+    }
+    .faq-q::after {
+      content: '+';
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--cyan);
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-q::after {
+      content: '−';
+    }
+    .faq-a {
+      display: none;
+      padding: 0 1.25rem 1.25rem 1.25rem;
+      color: var(--text-2);
+      line-height: 1.65;
+      border-top: 1px solid var(--border);
+    }
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-3);
+      font-size: 0.8rem;
+      margin-top: 2rem;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .footer-links a {
+      color: var(--text-3);
+      text-decoration: none;
+    }
+    .footer-links a:hover {
+      color: var(--cyan);
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+      .nav-links, .nav-buttons {
+        justify-content: center;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">LinkGuardian Pro</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="help.html">Help</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-buttons">
+    <a href="/login" class="btn btn-outline">Login</a>
+    <a href="/signup" class="btn btn-primary">Sign Up Free</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="header">
+    <div class="badge">Support</div>
+    <h1>Help & FAQ</h1>
+    <p class="subtitle">Find answers to common questions about LinkGuardian Pro.</p>
+  </div>
+
+  <div class="faq-section">
+    <h2>Getting Started</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I get started?</div>
+      <div class="faq-a">
+        1. Create a free account at linkguardian.pro/signup<br>
+        2. Add up to 5 links to monitor (free plan)<br>
+        3. Set up your Telegram Chat ID for alerts (optional but recommended)<br>
+        4. Links are checked automatically twice daily (6 AM and 6 PM UTC)<br>
+        5. You'll receive Telegram alerts instantly when a status changes
+      </div>
+    </div>
+
+    <div class="faq-item" id="telegram">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I find my Telegram Chat ID?</div>
+      <div class="faq-a">
+        Follow these steps to get your Telegram Chat ID:<br><br>
+        1. Open Telegram and search for <strong>@userinfobot</strong><br>
+        2. Start a chat and send /start<br>
+        3. The bot will reply with your Chat ID (a number like 123456789)<br>
+        4. Copy this number and paste it in Dashboard → Settings → Telegram Chat ID<br><br>
+        Alternatively, search for <strong>@RawDataBot</strong> and it will show your chat ID when you send any message.<br><br>
+        <strong>Important:</strong> You must also start a chat with our bot first. Our Telegram bot username will be shown in your dashboard settings page.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What does "multi-layer" detection mean?</div>
+      <div class="faq-a">
+        LinkGuardian uses three detection methods in sequence, falling back to the next if the previous fails:<br><br>
+        <strong>Layer 1 – Direct HTTP:</strong> Fastest method. Makes a direct HTTP request to the URL with browser-like headers. Works for most simple websites and some e-commerce sites. Typically completes in under 5 seconds.<br><br>
+        <strong>Layer 2 – ScraperAPI:</strong> Uses ScraperAPI's infrastructure to render JavaScript-heavy pages. More effective for sites like Amazon and Flipkart that block direct requests. Requires ScraperAPI key to be configured.<br><br>
+        <strong>Layer 3 – Playwright:</strong> Uses a full headless Chromium browser as the final fallback. Most accurate but slowest. Can handle any modern website but requires more server resources.
+      </div>
+    </div>
+
+    <h2>Link Monitoring</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How often are my links checked?</div>
+      <div class="faq-a">
+        <strong>Free and Pro plans:</strong> Twice daily — approximately 6 AM and 6 PM UTC (11:30 AM and 11:30 PM IST).<br><br>
+        <strong>Pro, Business, Agency plans:</strong> Can be set to hourly frequency per link via the Add Link modal.<br><br>
+        You can also trigger a manual check any time from your dashboard by clicking the "Check" button next to any link.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Why am I getting false "Out of Stock" alerts for my product?</div>
+      <div class="faq-a">
+        Out-of-stock detection uses keyword matching on the page HTML. False positives can occur when:<br><br>
+        • The product page contains out-of-stock text for <em>related products</em> or ads on the same page<br>
+        • The website uses non-standard wording not in our keyword list<br>
+        • The website is geo-restricted and shows different content to our servers<br>
+        • Amazon or Flipkart returns a CAPTCHA page instead of the product page<br>
+        • The page is dynamically loaded and our checker sees an incomplete version<br><br>
+        If you're getting consistent false positives for a specific URL, try using the "Check Now" button to see the current result and compare with what you see in your browser. You can also contact us to report persistent false positives so we can improve our keyword patterns.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Why does my Amazon link show as "Broken" even though it works in my browser?</div>
+      <div class="faq-a">
+        Amazon aggressively blocks automated requests. When Layer 1 (direct HTTP) is blocked, it may appear as an error or broken. Solutions:<br><br>
+        1. <strong>Enable ScraperAPI:</strong> Set up a ScraperAPI key for your account (Layer 2) — this bypasses most Amazon blocks<br>
+        2. <strong>Use a different URL format:</strong> Some Amazon URL formats are more bot-friendly than others<br>
+        3. <strong>Check the layer used:</strong> If the result shows "layer1", it means Layer 2/3 weren't available. Upgrade your plan or configure ScraperAPI<br><br>
+        Note: Monitoring Amazon links is challenging due to their anti-bot systems. Results may vary. See Terms of Service for our accuracy limitations.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What happens if I get too many false alerts?</div>
+      <div class="faq-a">
+        Our system sends alerts only once per status change — we don't spam you. If a link flaps between statuses (keeps changing), you'll get one alert per change.<br><br>
+        If you're getting false alerts frequently for a specific platform, you can:<br>
+        1. Delete the link and re-add it with a different platform setting<br>
+        2. Contact our support to report the issue<br>
+        3. Check if the URL itself has changed (use the free checker tool first)
+      </div>
+    </div>
+
+    <h2>Plans & Billing</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What happens when my plan expires?</div>
+      <div class="faq-a">
+        When your paid plan expires:<br><br>
+        1. Your account automatically reverts to the Free tier (5 link limit)<br>
+        2. Link monitoring is <strong>paused</strong> for links above the Free tier limit — they are NOT deleted<br>
+        3. You'll receive a Telegram alert at 7, 3, 1 days before expiry and on the day it expires<br>
+        4. When you renew, monitoring resumes for all your links up to your new plan limit<br><br>
+        <strong>Your data is safe.</strong> We never delete your links or history due to plan expiry.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is my data safe?</div>
+      <div class="faq-a">
+        Yes. We take data security seriously:<br><br>
+        • Passwords are hashed using SHA-256 — we never store plain-text passwords<br>
+        • All communication is encrypted via HTTPS<br>
+        • We use Supabase (PostgreSQL) hosted on secure infrastructure<br>
+        • Session tokens are randomly generated and expire after inactivity<br>
+        • We do not sell your data to third parties<br>
+        • Check history is automatically deleted after 90 days<br><br>
+        See our <a href="privacy.html">Privacy Policy</a> for full details.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I export my link data?</div>
+      <div class="faq-a">
+        Currently, you can view your links and check history in the dashboard. Export functionality (CSV download) is planned for a future update. Contact us if you need an urgent data export.
+      </div>
+    </div>
+
+    <h2>Technical Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">The free checker shows a different result than my dashboard check. Why?</div>
+      <div class="faq-a">
+        The free checker always uses Layer 1 only (direct HTTP) and has a rate limit. Dashboard checks use all available layers based on your plan. This means dashboard checks are generally more accurate, especially for complex sites.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What is the free checker rate limit?</div>
+      <div class="faq-a">
+        The free checker (on the homepage) allows up to 10 checks per hour per IP address. This limit exists to prevent abuse. Creating a free account gives you unlimited manual checks from the dashboard.
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2024 LinkGuardian Pro. Still have questions? <a href="contact.html">Contact us →</a></p>
+  <div class="footer-links">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    item.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About – LinkGuardian Pro</title>
+  <style>
+    :root {
+      --bg: #0B0F1A; --surface: #151B28; --surface-2: #1B2230;
+      --border: rgba(255,255,255,0.08); --text-1: #F8FAFC; --text-2: #CBD5E1; --text-3: #94A3B8;
+      --cyan: #00E5FF; --cyan-soft: rgba(0,229,255,0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text-1);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    /* Navbar */
+    .navbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11,15,26,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; color: var(--cyan); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-3); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-buttons { display: flex; gap: 1rem; }
+    .btn {
+      padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-outline { border: 1px solid var(--border); color: var(--text-2); background: transparent; }
+    .btn-outline:hover { background: var(--surface-2); border-color: var(--cyan); color: var(--cyan); }
+    .btn-primary { background: var(--cyan); color: #000; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    /* Main Content */
+    .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .badge {
+      display: inline-block; background: var(--cyan-soft); color: var(--cyan);
+      font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0.75rem;
+    }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--text-3); font-size: 0.9rem; margin-bottom: 1rem; }
+    .content {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 1.5rem;
+      padding: 2rem; line-height: 1.65;
+    }
+    .content h2 { font-size: 1.2rem; font-weight: 700; color: var(--cyan); margin: 1.5rem 0 0.75rem; }
+    .content p { margin-bottom: 1rem; color: var(--text-2); }
+    .content a { color: var(--cyan); text-decoration: none; }
+    .content a:hover { text-decoration: underline; }
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border); padding: 2rem; text-align: center;
+      color: var(--text-3); font-size: 0.8rem; margin-top: 2rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+    .footer-links a { color: var(--text-3); text-decoration: none; }
+    .footer-links a:hover { color: var(--cyan); }
+    @media (max-width: 640px) {
+      .navbar { flex-direction: column; align-items: stretch; text-align: center; }
+      .nav-links, .nav-buttons { justify-content: center; }
+      h1 { font-size: 1.6rem; }
+      .content { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">LinkGuardian Pro</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="help.html">Help</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-buttons">
+    <a href="/login" class="btn btn-outline">Login</a>
+    <a href="/signup" class="btn btn-primary">Sign Up Free</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="header">
+    <div class="badge">Our Story</div>
+    <h1>About LinkGuardian Pro</h1>
+    <p class="subtitle">Built for affiliate marketers, bloggers, and e-commerce businesses who can't afford broken links.</p>
+  </div>
+
+  <div class="content">
+    <p>LinkGuardian Pro was built to solve a painful problem: affiliate marketers spending hours manually checking if their Amazon product links are still working — only to discover that a broken link has been silently losing commissions for weeks.</p>
+    <p>We built a tool that does this automatically, checks multiple times per day, uses advanced detection layers to handle bot-blocking sites, and sends instant Telegram notifications the moment something goes wrong.</p>
+    <h2>Our Mission</h2>
+    <p>Make professional-grade link monitoring accessible to every content creator, affiliate marketer, and small business — not just enterprises with large budgets.</p>
+    <h2>What Makes Us Different</h2>
+    <p>Most uptime monitors just check if a URL returns 200 OK. That's not enough for e-commerce. A product page can return 200 OK while showing "Currently Unavailable" or "Out of Stock". We detect that.</p>
+    <p>Our three-layer detection system — direct HTTP, ScraperAPI with JS rendering, and headless Playwright browser — ensures we catch what simple checkers miss, especially on Amazon and Flipkart where bot detection is aggressive.</p>
+    <h2>Technology</h2>
+    <p>LinkGuardian Pro is built with Python (Flask), PostgreSQL (Supabase), and modern JavaScript. Scheduled checks run via GitHub Actions. Alerts are delivered through the Telegram Bot API with sub-second delivery times.</p>
+    <h2>Contact</h2>
+    <p>Questions, feature requests, or bug reports? Reach us at <a href="contact.html">our contact page</a> or email support@linkguardian.pro</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2024 LinkGuardian Pro. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

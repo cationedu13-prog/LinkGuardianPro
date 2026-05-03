@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – LinkGuardian Pro</title>
+  <style>
+    :root {
+      --bg: #0B0F1A; --surface: #151B28; --surface-2: #1B2230;
+      --border: rgba(255,255,255,0.08); --text-1: #F8FAFC; --text-2: #CBD5E1; --text-3: #94A3B8;
+      --cyan: #00E5FF; --cyan-soft: rgba(0,229,255,0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text-1);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    /* Navbar (same as about) */
+    .navbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11,15,26,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; color: var(--cyan); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-3); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-buttons { display: flex; gap: 1rem; }
+    .btn { padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-outline { border: 1px solid var(--border); color: var(--text-2); background: transparent; }
+    .btn-outline:hover { background: var(--surface-2); border-color: var(--cyan); color: var(--cyan); }
+    .btn-primary { background: var(--cyan); color: #000; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    /* Main Content */
+    .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .badge {
+      display: inline-block; background: var(--cyan-soft); color: var(--cyan);
+      font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0.75rem;
+    }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--text-3); font-size: 0.9rem; margin-bottom: 1rem; }
+    .content {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 1.5rem;
+      padding: 2rem;
+    }
+    .content h2 { font-size: 1.2rem; font-weight: 700; color: var(--cyan); margin: 1.5rem 0 0.75rem; }
+    .content p, .content ul { color: var(--text-2); margin-bottom: 0.75rem; line-height: 1.65; }
+    .content ul { padding-left: 1.5rem; }
+    .content li { margin-bottom: 0.25rem; }
+    .content a { color: var(--cyan); text-decoration: none; }
+    .content a:hover { text-decoration: underline; }
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border); padding: 2rem; text-align: center;
+      color: var(--text-3); font-size: 0.8rem; margin-top: 2rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+    .footer-links a { color: var(--text-3); text-decoration: none; }
+    .footer-links a:hover { color: var(--cyan); }
+    @media (max-width: 640px) {
+      .navbar { flex-direction: column; align-items: stretch; text-align: center; }
+      .nav-links, .nav-buttons { justify-content: center; }
+      h1 { font-size: 1.6rem; }
+      .content { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">LinkGuardian Pro</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="help.html">Help</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-buttons">
+    <a href="/login" class="btn btn-outline">Login</a>
+    <a href="/signup" class="btn btn-primary">Sign Up Free</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="header">
+    <div class="badge">Your Privacy</div>
+    <h1>Privacy Policy</h1>
+    <p class="subtitle">Last updated: January 2024</p>
+  </div>
+
+  <div class="content">
+    <p>LinkGuardian Pro ("we", "our", "Service") is committed to protecting your privacy. This Policy describes how we collect, use, and protect your information.</p>
+    <h2>1. Information We Collect</h2>
+    <p><strong>Account Information:</strong> When you register, we collect your email address, name (optional), and a hashed password. We never store your plain-text password.</p>
+    <p><strong>Link Data:</strong> URLs you add for monitoring, their names, platform tags, and check frequency preferences.</p>
+    <p><strong>Check History:</strong> Results of link checks including status, response times, and detection layer — kept for 90 days.</p>
+    <p><strong>Alert Preferences:</strong> Your Telegram Chat ID if you choose to enable Telegram alerts.</p>
+    <p><strong>Technical Data:</strong> IP addresses (for rate limiting), browser type, and usage analytics.</p>
+    <h2>2. How We Use Your Information</h2>
+    <ul>
+      <li>To perform link monitoring checks on your behalf</li>
+      <li>To send you status change alerts via Telegram</li>
+      <li>To send plan expiry notifications</li>
+      <li>To improve our detection algorithms and service quality</li>
+      <li>To enforce plan limits and prevent abuse</li>
+      <li>To respond to your support requests</li>
+    </ul>
+    <h2>3. Data Sharing</h2>
+    <p>We do not sell your personal data. We share data only with:</p>
+    <ul>
+      <li><strong>Supabase:</strong> Our database provider (PostgreSQL hosting)</li>
+      <li><strong>ScraperAPI:</strong> URLs you submit may be passed to ScraperAPI for advanced checking if enabled</li>
+      <li><strong>Telegram:</strong> Your Chat ID and alert messages are sent via the Telegram Bot API</li>
+      <li><strong>Railway/Vercel:</strong> Hosting providers who may log request metadata</li>
+    </ul>
+    <p>All third-party providers are bound by their own privacy policies.</p>
+    <h2>4. Data Retention</h2>
+    <ul>
+      <li>Account data: Retained until you delete your account</li>
+      <li>Link check history: 90 days rolling window</li>
+      <li>Alert logs: 90 days</li>
+      <li>IP rate limit data: 1 hour</li>
+    </ul>
+    <h2>5. Security</h2>
+    <p>We use industry-standard security measures including HTTPS encryption, hashed passwords, and secure session management. However, no system is 100% secure. Report security issues to security@linkguardian.pro.</p>
+    <h2>6. Your Rights</h2>
+    <ul>
+      <li>Access, correct, or delete your personal data</li>
+      <li>Export your link data</li>
+      <li>Opt out of non-essential communications</li>
+      <li>Delete your account at any time</li>
+    </ul>
+    <p>Contact us at the address below to exercise these rights.</p>
+    <h2>7. Cookies</h2>
+    <p>We use a single session cookie to keep you logged in. No third-party tracking cookies are used.</p>
+    <h2>8. Changes</h2>
+    <p>We may update this policy. Changes will be communicated via email or dashboard notice.</p>
+    <h2>9. Contact</h2>
+    <p>For privacy questions: <a href="contact.html">contact us</a> or email privacy@linkguardian.pro</p>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2024 LinkGuardian Pro. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>

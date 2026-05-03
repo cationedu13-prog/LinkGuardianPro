@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact – LinkGuardian Pro</title>
+  <style>
+    :root {
+      --bg: #0B0F1A;
+      --surface: #151B28;
+      --surface-2: #1B2230;
+      --border: rgba(255, 255, 255, 0.08);
+      --text-1: #F8FAFC;
+      --text-2: #CBD5E1;
+      --text-3: #94A3B8;
+      --cyan: #00E5FF;
+      --cyan-soft: rgba(0,229,255,0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text-1);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    /* Navbar */
+    .navbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(11,15,26,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .logo { font-size: 1.25rem; font-weight: 800; color: var(--cyan); text-decoration: none; letter-spacing: -0.01em; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-3); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-buttons { display: flex; gap: 1rem; }
+    .btn {
+      padding: 0.5rem 1rem; border-radius: 8px; font-weight: 600;
+      text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-outline { border: 1px solid var(--border); color: var(--text-2); background: transparent; }
+    .btn-outline:hover { background: var(--surface-2); border-color: var(--cyan); color: var(--cyan); }
+    .btn-primary { background: var(--cyan); color: #000; }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    /* Main container */
+    .container { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+    .header { text-align: center; margin-bottom: 2rem; }
+    .badge {
+      display: inline-block; background: var(--cyan-soft); color: var(--cyan);
+      font-size: 0.75rem; padding: 0.25rem 0.75rem; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 0.75rem;
+    }
+    h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .subtitle { color: var(--text-3); font-size: 0.9rem; }
+
+    /* Contact Info Cards */
+    .contact-grid {
+      display: flex; flex-wrap: wrap; gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .contact-card {
+      flex: 1; min-width: 200px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 1rem;
+      padding: 1.5rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .contact-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+    .contact-card .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .contact-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-1); }
+    .contact-card a { color: var(--cyan); text-decoration: none; word-break: break-all; }
+    .contact-card p { font-size: 0.8rem; color: var(--text-3); margin-top: 0.5rem; }
+
+    /* Form Section */
+    .form-section {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 1.5rem;
+      padding: 1.5rem; margin-top: 1rem;
+    }
+    .form-group { margin-bottom: 1.25rem; }
+    label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-2); margin-bottom: 0.3rem; }
+    input, select, textarea {
+      width: 100%; padding: 0.75rem; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 0.75rem;
+      color: var(--text-1); font-family: inherit; font-size: 0.9rem;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-soft); }
+    .alert-box { display: none; padding: 0.75rem; border-radius: 0.75rem; margin-bottom: 1rem; font-size: 0.85rem; }
+    .alert-box.show { display: block; }
+    .alert-box.error { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
+    .alert-box.success { background: var(--cyan-soft); color: var(--cyan); border: 1px solid var(--cyan); }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border); padding: 2rem; text-align: center;
+      color: var(--text-3); font-size: 0.8rem; margin-top: 2rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 0.5rem; }
+    .footer-links a { color: var(--text-3); text-decoration: none; }
+    .footer-links a:hover { color: var(--cyan); }
+
+    @media (max-width: 640px) {
+      .navbar { flex-direction: column; align-items: stretch; text-align: center; }
+      .nav-links, .nav-buttons { justify-content: center; }
+      h1 { font-size: 1.6rem; }
+      .contact-grid { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="logo">LinkGuardian Pro</a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="help.html">Help</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-buttons">
+    <a href="/login" class="btn btn-outline">Login</a>
+    <a href="/signup" class="btn btn-primary">Sign Up Free</a>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="header">
+    <div class="badge">Reach Out</div>
+    <h1>Contact Us</h1>
+    <p class="subtitle">We typically respond within 24 hours on business days.</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="icon">📧</div>
+      <h3>Email Support</h3>
+      <a href="mailto:linkmoniter@gmail.com">linkmoniter@gmail.com</a>
+      <p>For general questions, billing, and account issues</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">🐛</div>
+      <h3>Bug Reports</h3>
+      <a href="mailto:linkmoniter@gmail.com">linkmoniter@gmail.com</a>
+      <p>Technical issues, false alerts, detection problems</p>
+    </div>
+    <div class="contact-card">
+      <div class="icon">🔒</div>
+      <h3>Privacy & Legal</h3>
+      <a href="mailto:linkmoniter@gmail.com">linkmoniter@gmail.com</a>
+      <p>Data deletion requests and privacy concerns</p>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem;">Send a Message</h2>
+    <div class="alert-box" id="contactAlert"></div>
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" id="cName" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="cEmail" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>Subject</label>
+      <select id="cSubject">
+        <option value="">Select a subject</option>
+        <option value="billing">Billing / Subscription</option>
+        <option value="bug">Bug Report</option>
+        <option value="feature">Feature Request</option>
+        <option value="account">Account Issue</option>
+        <option value="privacy">Privacy / Data</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Message</label>
+      <textarea id="cMessage" rows="5" placeholder="Describe your issue or question..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="sendContact()" style="background: var(--cyan); color: #000; padding: 0.75rem 1.5rem;">Send Message</button>
+  </div>
+</main>
+
+<footer class="footer">
+  <p>© 2024 LinkGuardian Pro. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+function sendContact() {
+  const name    = document.getElementById('cName').value.trim();
+  const email   = document.getElementById('cEmail').value.trim();
+  const subject = document.getElementById('cSubject').value;
+  const message = document.getElementById('cMessage').value.trim();
+  const alertBox = document.getElementById('contactAlert');
+  if (!email || !message) {
+    alertBox.textContent = 'Email and message are required.';
+    alertBox.className = 'alert-box show error';
+    return;
+  }
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`);
+  window.location.href = `mailto:linkmoniter@gmail.com?subject=${encodeURIComponent(subject || 'Contact from website')}&body=${body}`;
+  alertBox.textContent = 'Thank you! Opening your email client...';
+  alertBox.className = 'alert-box show success';
+}
+</script>
+</body>
+</html>
