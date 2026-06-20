@@ -1,0 +1,54 @@
+# render.yaml – Render deployment configuration
+# Docs: https://render.com/docs/render-yaml-spec
+#
+# HOW TO USE:
+# 1. Push this file to your GitHub repo root
+# 2. Go to Render dashboard → New → Blueprint
+# 3. Connect your repo — Render will read this file automatically
+# 4. Set all environment variables in Render dashboard (do NOT put secrets here)
+
+services:
+  - type: web
+    name: affiguard-backend
+    runtime: python
+    region: singapore          # Closest to India — lowest latency for your users
+    plan: free                 # Change to 'starter' ($7/mo) to avoid sleep
+
+    # Build config
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 300 --access-logfile - --error-logfile -
+
+    # Health check — Render pings this to verify service is up
+    healthCheckPath: /api/health
+
+    # Auto-deploy on every push to main branch
+    autoDeploy: true
+    branch: main
+
+    # ── Environment Variables ─────────────────────────────────────────────
+    # Add SECRET values in Render Dashboard → Service → Environment
+    # Only non-secret defaults are listed here.
+    envVars:
+      - key: FLASK_ENV
+        value: production
+
+      - key: ENABLE_PLAYWRIGHT
+        value: false            # Keep false on free tier (512MB RAM — OOM risk)
+
+      - key: FREE_CHECKER_LIMIT
+        value: "10"
+
+      # ── Set these in Render Dashboard (not here — never commit secrets) ──
+      # FLASK_SECRET_KEY        → generate: python -c "import secrets; print(secrets.token_hex(32))"
+      # SUPABASE_URL            → Supabase → Project Settings → API → Project URL
+      # SUPABASE_SERVICE_KEY    → Supabase → Project Settings → API → service_role key
+      # CRON_API_KEY            → generate: python -c "import secrets; print(secrets.token_hex(32))"
+      # ADMIN_SECRET            → generate: python -c "import secrets; print(secrets.token_hex(32))"
+      # TELEGRAM_BOT_TOKEN      → @BotFather on Telegram
+      # SMTP_HOST               → smtp.gmail.com
+      # SMTP_PORT               → 587
+      # SMTP_USER               → your Gmail address
+      # SMTP_PASS               → Gmail App Password (not your login password)
+      # FROM_EMAIL              → your Gmail address
+      # FRONTEND_URL            → https://your-project.vercel.app  (NO trailing slash)
+      # SCRAPER_API_KEY         → scraperapi.com dashboard (optional — Layer 2)

@@ -1,0 +1,4 @@
+# nixpacks.toml — NOT used by Render.
+# This file was for Railway/Koyeb deployments only.
+# Render reads render.yaml instead.
+# Safe to delete this file if deploying exclusively on Render.
