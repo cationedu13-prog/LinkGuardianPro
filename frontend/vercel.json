@@ -1,0 +1,25 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/dashboard",       "destination": "/dashboard.html" },
+    { "source": "/login",           "destination": "/login.html" },
+    { "source": "/signup",          "destination": "/signup.html" },
+    { "source": "/forgot-password", "destination": "/forgot-password.html" },
+    { "source": "/reset-password",  "destination": "/reset-password.html" },
+    { "source": "/about",           "destination": "/about.html" },
+    { "source": "/contact",         "destination": "/contact.html" },
+    { "source": "/help",            "destination": "/help.html" },
+    { "source": "/privacy",         "destination": "/privacy.html" },
+    { "source": "/terms",           "destination": "/terms.html" },
+    { "source": "/admin",           "destination": "/admin.html" },
+    { "source": "/(.*)",            "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/config.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    }
+  ]
+}
