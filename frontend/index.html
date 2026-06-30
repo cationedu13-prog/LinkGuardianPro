@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<script src="/config.js"></script>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AffiGuard – Never Lose Money to Broken Links</title>
+<meta content="Monitor Amazon, Flipkart, and any URL for broken links and out-of-stock products. Real-time Telegram alerts." name="description"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+      --cyan-accent: #00E5FF;
+      --bg-deep: #0B0F1A;
+      --bg-card: #151B28;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      margin: 0;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1rem; }
+    }
+
+    .section {
+      padding: 8rem 0;
+    }
+    @media (max-width: 767px) {
+      .section { padding: 4rem 0; }
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4 {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .accent {
+      color: var(--cyan-accent);
+      background: linear-gradient(90deg, #00E5FF, #2979FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      gap: 0.5rem;
+      /* Prevent double-tap zoom, ensure good tap area */
+      touch-action: manipulation;
+      min-height: 44px;
+    }
+
+    .btn-primary {
+      background-color: var(--cyan-accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    }
+
+    .btn-ghost {
+      color: var(--text-main);
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    .btn-lg {
+      padding: 1rem 2rem;
+      font-size: 1.125rem;
+    }
+
+    .btn-sm {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 15, 26, 0.8);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .nav-logo {
+      font-weight: 800;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .nav-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--cyan-accent);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+
+    .nav-links {
+      display: none;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan-accent);
+    }
+
+    @media (min-width: 768px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-menu-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .nav-menu-btn span {
+      width: 24px;
+      height: 2px;
+      background: var(--text-main);
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .nav-menu-btn { display: none; }
+    }
+
+    .mobile-nav {
+      display: none;
+      position: absolute;
+      top: 80px;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 2rem;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mobile-nav.open { display: flex; }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 10rem 0 6rem;
+      text-align: center;
+    }
+    @media (max-width: 767px) {
+      .hero { padding: 6rem 0 4rem; }
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--cyan-accent);
+      padding: 0.5rem 1rem;
+      border-radius: 99px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    .hero-eyebrow span { font-size: 0.5rem; }
+
+    .hero h1 {
+      font-size: 4.5rem;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 767px) {
+      .hero h1 { font-size: 2.4rem; }
+    }
+    @media (max-width: 400px) {
+      .hero h1 { font-size: 2rem; }
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      font-size: 1.25rem;
+      color: var(--text-muted);
+    }
+    @media (max-width: 767px) {
+      .hero p { font-size: 1rem; margin-bottom: 2rem; }
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 480px) {
+      .hero-cta { flex-direction: column; align-items: center; }
+      .hero-cta .btn { width: 100%; max-width: 320px; }
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 6rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 767px) {
+      .hero-stats { margin-top: 3rem; gap: 1.25rem; }
+    }
+
+    @media (min-width: 768px) {
+      .hero-stats { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .hero-stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--cyan-accent);
+    }
+
+    .hero-stat-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Free Checker ── */
+    .checker-section {
+      padding: 4rem 0;
+    }
+    @media (max-width: 767px) {
+      .checker-section { padding: 2.5rem 0; }
+    }
+
+    .checker-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 0 40px 100px -20px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 767px) {
+      .checker-card { padding: 1.5rem 1.25rem; border-radius: 16px; }
+    }
+
+    .checker-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan-accent), transparent);
+    }
+
+    .checker-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    @media (max-width: 767px) {
+      .checker-title { font-size: 1.4rem; }
+    }
+
+    .checker-subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 767px) {
+      .checker-subtitle { margin-bottom: 1.75rem; }
+    }
+
+    .checker-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .checker-form-disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .checker-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .checker-row { grid-template-columns: 1fr 200px; }
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .form-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .form-input, .form-select {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.2s;
+      /* 16px minimum to prevent iOS auto-zoom */
+      font-size: 1rem;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Clear (×) button inside the free-checker URL field */
+    .checker-url-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .checker-url-wrap .form-input {
+      padding-right: 2.5rem;
+    }
+    .checker-clear-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: var(--text-main);
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .checker-clear-btn:hover { background: rgba(255,255,255,0.16); }
+    .checker-clear-btn.hidden { display: none; }
+
+    /* FIX: Mobile browsers (esp. Android Chrome) render <select> dropdown
+       options using a native white popup, ignoring the parent's dark
+       background. Without explicit colors here, white text (--text-main)
+       lands on that white popup and becomes invisible. Forcing both
+       background and color on <option> fixes this across mobile browsers. */
+    .form-select option {
+      background: #151B28;
+      color: #F8FAFC;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--cyan-accent);
+    }
+
+    .checker-result {
+      margin-top: 2rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      display: none;
+    }
+
+    .checker-result.show { display: block; }
+
+    .checker-result-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .checker-result-item label {
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .checker-result-item span { font-weight: 600; font-size: 0.9375rem; }
+
+    .checker-declined-notice {
+      background: rgba(255, 59, 48, 0.1);
+      border: 1px solid rgba(255, 59, 48, 0.3);
+      color: #ffbaba;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9375rem;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ── Features ── */
+    .section-header { text-align: center; max-width: 800px; margin: 0 auto 5rem; }
+    .section-eyebrow { color: var(--cyan-accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; margin-bottom: 1rem; }
+    .section-title { font-size: 3rem; margin-bottom: 1.5rem; }
+    .section-subtitle { font-size: 1.125rem; color: var(--text-muted); }
+    @media (max-width: 767px) {
+      .section-header { margin-bottom: 2.5rem; }
+      .section-title { font-size: 1.8rem; }
+      .section-subtitle { font-size: 1rem; }
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    @media (max-width: 640px) {
+      .features-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 2.5rem;
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
+    @media (max-width: 767px) {
+      .feature-card { padding: 1.5rem; }
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 229, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--cyan-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+    .feature-desc { color: var(--text-muted); font-size: 0.9375rem; }
+
+    /* ── Pricing ── */
+    .pricing-toggle {
+      display: flex;
+      justify-content: center;
+      background: var(--bg-card);
+      padding: 4px;
+      border-radius: 99px;
+      width: fit-content;
+      margin: 0 auto 4rem;
+      border: 1px solid var(--border-subtle);
+      touch-action: manipulation;
+    }
+    @media (max-width: 767px) {
+      .pricing-toggle { margin-bottom: 2rem; }
+    }
+
+    .toggle-btn {
+      padding: 0.5rem 1.5rem;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      touch-action: manipulation;
+      min-height: 40px;
+    }
+
+    .toggle-btn.active {
+      background: var(--cyan-accent);
+      color: #000;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    @media (max-width: 640px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 2.5rem;
+      border-radius: 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    @media (max-width: 767px) {
+      .pricing-card { padding: 1.5rem; }
+    }
+
+    .pricing-card.popular {
+      border: 2px solid var(--cyan-accent);
+      /* Disable scale on mobile — causes overflow */
+      transform: scale(1.05);
+      z-index: 10;
+    }
+    @media (max-width: 767px) {
+      .pricing-card.popular { transform: none; }
+    }
+
+    .pricing-popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--cyan-accent);
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .pricing-plan-name { font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .pricing-price { font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .pricing-price sup { font-size: 1.25rem; top: -1.25rem; margin-right: 4px; }
+    .pricing-period { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.875rem; }
+
+    .pricing-features { margin-bottom: 2.5rem; flex-grow: 1; }
+    .pricing-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.9375rem;
+    }
+
+    .pricing-feature-icon { color: var(--cyan-accent); font-weight: bold; flex-shrink: 0; }
+    .pricing-feature-icon.no { color: #ff3b30; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      max-width: 500px;
+      width: 100%;
+      border-radius: 24px;
+      padding: 3rem;
+      text-align: center;
+    }
+    @media (max-width: 480px) {
+      .modal { padding: 2rem 1.5rem; border-radius: 16px; }
+    }
+
+    .terms-modal-icon {
+      font-size: 3rem;
+      color: var(--cyan-accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .terms-modal-title { font-size: 1.75rem; font-weight: 800; margin-bottom: 1rem; }
+    .terms-modal-body { color: var(--text-muted); margin-bottom: 2rem; font-size: 1rem; }
+    .terms-modal-body a { color: var(--cyan-accent); text-decoration: none; }
+    .terms-modal-footer {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 400px) {
+      .terms-modal-footer { flex-direction: column; }
+      .terms-modal-footer .btn { width: 100%; }
+    }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .badge-active { background: rgba(52, 199, 89, 0.15); color: #34c759; }
+    .badge-broken { background: rgba(255, 59, 48, 0.15); color: #ff3b30; }
+    .badge-out_of_stock { background: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
+    .badge-pending { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); }
+    .badge-pro { background: rgba(0, 229, 255, 0.1); color: var(--cyan-accent); border: 1px solid rgba(0, 229, 255, 0.2); }
+
+    /* ── Testimonials & Feedback ── */
+    .testimonials-section {
+      padding: 8rem 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,229,255,0.02) 50%, transparent 100%);
+    }
+    @media (max-width: 767px) {
+      .testimonials-section { padding: 4rem 0; }
+    }
+
+    .testimonials-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    @media (min-width: 768px) {
+      .testimonials-inner { grid-template-columns: 1fr 1.6fr; align-items: center; }
+    }
+
+    .testimonials-heading {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    @media (max-width: 767px) {
+      .testimonials-heading { font-size: 1.7rem; }
+    }
+
+    .testimonials-heading .accent-line {
+      display: block;
+      background: linear-gradient(90deg, #00E5FF, #2979FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .testimonials-sub {
+      color: var(--text-muted);
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+
+    /* Slider */
+    .slider-wrap {
+      overflow: hidden;
+      border-radius: 20px;
+      position: relative;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    .testimonial-card {
+      min-width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      font-size: 5rem;
+      line-height: 1;
+      color: rgba(0, 229, 255, 0.12);
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 1.25rem;
+    }
+
+    .star { color: #FFD700; font-size: 1.1rem; }
+
+    .testimonial-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-main);
+      margin-bottom: 2rem;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #00E5FF, #2979FF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #000;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .testimonial-name { font-weight: 700; font-size: 0.95rem; }
+    .testimonial-role { color: var(--text-muted); font-size: 0.8rem; margin-top: 2px; }
+
+    .slider-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .slider-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border-subtle);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      padding: 0;
+    }
+
+    .slider-dot.active {
+      background: var(--cyan-accent);
+      transform: scale(1.3);
+    }
+
+    /* Feedback Form */
+    .feedback-form-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-top: 3rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 480px) {
+      .feedback-form-wrap { padding: 1.25rem; border-radius: 14px; }
+    }
+
+    .feedback-form-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-form-sub {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .feedback-form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .feedback-form-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Star rating — single source of truth, no conflicting overrides.
+       Rendered right-to-left in the DOM (5★ first) but displayed visually
+       left-to-right via row-reverse, so CSS-only "hover/checked highlights
+       this star and everything before it" works without JavaScript. */
+    .star-rating {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-bottom: 1rem;
+      flex-wrap: nowrap;
+    }
+
+    .star-rating input { display: none; }
+
+    .star-rating label {
+      font-size: 1.6rem;
+      line-height: 1;
+      color: rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: color 0.15s, transform 0.15s;
+      flex-shrink: 0;
+    }
+
+    .star-rating input:checked ~ label,
+    .star-rating label:hover,
+    .star-rating label:hover ~ label {
+      color: #FFD700;
+    }
+
+    .feedback-alert {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      display: none;
+    }
+    .feedback-alert.show { display: block; }
+    .feedback-alert.success { background: rgba(52,199,89,0.12); border: 1px solid rgba(52,199,89,0.3); color: #34c759; }
+    .feedback-alert.error   { background: rgba(255,59,48,0.1); border: 1px solid rgba(255,59,48,0.3); color: #ffbaba; }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 6rem 0 3rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand p { color: var(--text-muted); font-size: 0.9375rem; margin-top: 1.5rem; max-width: 300px; }
+    .footer-col h4 { font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; }
+    .footer-col a { display: block; color: var(--text-muted); text-decoration: none; margin-bottom: 0.75rem; font-size: 0.9375rem; }
+    .footer-col a:hover { color: var(--cyan-accent); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom { flex-direction: row; }
+    }
+
+    /* ── Utilities ── */
+    .animate-fade-up {
+      animation: fadeUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    .alert-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      display: none;
+    }
+    .alert-box.show { display: block; }
+    .alert-box.error { background: rgba(255, 59, 48, 0.1); border: 1px solid rgba(255, 59, 48, 0.3); color: #ffbaba; }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0,0,0,0.1);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .terms-reopen-btn {
+      background: none;
+      border: none;
+      color: var(--cyan-accent);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<!-- ── Terms Acceptance Modal ───────────────────────────────── -->
+<div aria-labelledby="termsModalTitle" aria-modal="true" class="modal-overlay" id="termsModal" role="dialog">
+<div class="modal terms-modal">
+<div aria-hidden="true" class="terms-modal-icon">🛡</div>
+<h2 class="terms-modal-title" id="termsModalTitle">Before you continue</h2>
+<p class="terms-modal-body">
+      To use the Free Link Checker and other features of AffiGuard,
+      please read and accept our
+      <a href="/terms.html" rel="noopener" target="_blank">Terms &amp; Conditions</a>
+      and
+      <a href="/privacy.html" rel="noopener" target="_blank">Privacy Policy</a>.
+    </p>
+<div class="terms-modal-footer">
+<button class="btn btn-ghost" id="termsDeclineBtn">Decline</button>
+<button class="btn btn-primary" id="termsAcceptBtn">Accept &amp; Continue</button>
+</div>
+</div>
+</div>
+<!-- ── Navigation ───────────────────────────────────────────── -->
+<nav class="nav">
+<div class="container">
+<div class="nav-inner">
+<a class="nav-logo" href="/">
+<div class="nav-logo-icon">🛡</div>
+        AffiGuard
+      </a>
+<ul class="nav-links">
+<li><a href="#features">Features</a></li>
+<li><a href="#pricing">Pricing</a></li>
+<li><a href="help.html">Help</a></li>
+<li><a href="about.html">About</a></li>
+</ul>
+<div class="nav-actions">
+<a class="btn btn-ghost btn-sm" href="/login">Login</a>
+<a class="btn btn-primary btn-sm" href="/signup">Get Started Free</a>
+<button aria-expanded="false" aria-label="Menu" class="nav-menu-btn" id="mobileMenuBtn">
+<span></span><span></span><span></span>
+</button>
+</div>
+</div>
+<div class="mobile-nav" id="mobileNav">
+<a href="#features">Features</a>
+<a href="#pricing">Pricing</a>
+<a href="help.html">Help</a>
+<a href="about.html">About</a>
+<a href="/login">Login</a>
+</div>
+</div>
+</nav>
+<!-- ── Hero ─────────────────────────────────────────────────── -->
+<section class="hero">
+<div class="container">
+<div class="hero-eyebrow animate-fade-up">
+<span>●</span> Multi-layer link monitoring
+    </div>
+<h1 class="animate-fade-up delay-1">
+      Never Lose Money<br/>to <span class="accent">Broken Links</span>
+</h1>
+<p class="animate-fade-up delay-1">
+      Monitor Amazon products, Flipkart listings, and any URL 24/7.
+      Get instant Telegram alerts when links break or go out of stock.
+      Three detection layers. Zero missed alerts.
+    </p>
+<div class="hero-cta animate-fade-up delay-2">
+<a class="btn btn-primary btn-lg" href="/signup">Start Free — 5 Links</a>
+<a class="btn btn-ghost btn-lg" href="#checker">Try Free Checker ↓</a>
+</div>
+<div class="hero-stats animate-fade-up delay-3">
+<div class="hero-stat">
+<div class="hero-stat-num">3</div>
+<div class="hero-stat-label">Detection Layers</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-num">2×</div>
+<div class="hero-stat-label">Daily Checks</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-num">&lt;1s</div>
+<div class="hero-stat-label">Alert Delivery</div>
+</div>
+<div class="hero-stat">
+<div class="hero-stat-num">99%</div>
+<div class="hero-stat-label">Uptime Target</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ── Free Checker ──────────────────────────────────────────── -->
+<section class="checker-section" id="checker">
+<div class="container">
+<div class="checker-card animate-fade-up">
+<div class="checker-title">🔍 Free Link Checker</div>
+<div class="checker-subtitle">Check any URL instantly — no signup required. Free to use.</div>
+<div class="checker-declined-notice hidden" id="checkerDeclinedNotice" role="alert">
+<span aria-hidden="true" class="checker-declined-icon">⚠️</span>
+<span>
+          You must accept our
+          <a href="/terms.html" rel="noopener" target="_blank">Terms &amp; Conditions</a>
+          to use the Free Checker.
+          <button class="terms-reopen-btn" id="termsReopenBtn">Review &amp; Accept →</button>
+</span>
+</div>
+<div class="checker-form" id="checkerForm">
+<div class="checker-row">
+<div class="form-group">
+<label class="form-label" for="checkerUrl">URL to check</label>
+<div class="checker-url-wrap">
+<input class="form-input" id="checkerUrl" placeholder="https://www.amazon.in/dp/..." type="url"/>
+<button type="button" class="checker-clear-btn hidden" id="checkerClearBtn" aria-label="Clear URL" onclick="clearCheckerUrl()">×</button>
+</div>
+</div>
+<div class="form-group">
+<label class="form-label" for="checkerPlatform">Platform</label>
+<select class="form-select" id="checkerPlatform">
+<option value="generic">Generic</option>
+<option value="amazon">Amazon</option>
+<option value="flipkart">Flipkart</option>
+<option value="shopify">Shopify</option>
+<option value="etsy">Etsy</option>
+</select>
+</div>
+</div>
+<button class="btn btn-primary" id="checkerBtn" onclick="runFreeCheck()">
+<span id="checkerBtnText">Check Now</span>
+<span class="spinner hidden" id="checkerSpinner"></span>
+</button>
+<div class="alert-box" id="checkerError"></div>
+</div>
+<div class="checker-result" id="checkerResult">
+<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+<strong style="font-weight: 800; font-size: 1.125rem;">Result</strong>
+<span id="checkerBadge"></span>
+</div>
+<div class="checker-result-grid">
+<div class="checker-result-item">
+<label>Response Time</label>
+<span id="checkerTime">—</span>
+</div>
+<div class="checker-result-item">
+<label>Detection Layer</label>
+<span id="checkerLayer">—</span>
+</div>
+<div class="checker-result-item" style="grid-column: 1 / -1;">
+<label>URL Checked</label>
+<span id="checkerUrl2" style="font-size:0.75rem;font-family:monospace;word-break:break-all;color:var(--text-muted);">—</span>
+</div>
+</div>
+<div id="checkerErrorMsg" style="margin-top:1rem;font-size:0.875rem;color:#ff3b30;display:none;"></div>
+<div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);font-size:0.875rem;color:var(--text-muted);text-align: center;">
+          Want to monitor this link automatically?
+          <a href="/signup" style="color:var(--cyan-accent); font-weight:600; text-decoration: none;">Create a free account →</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ── Features ─────────────────────────────────────────────── -->
+<section class="section" id="features">
+<div class="container">
+<div class="section-header">
+<div class="section-eyebrow">How it works</div>
+<h2 class="section-title">Enterprise-grade monitoring<br/>at indie prices</h2>
+<p class="section-subtitle">Three detection layers ensure nothing slips through — even for bot-protected sites.</p>
+</div>
+<div class="features-grid">
+<div class="feature-card">
+<div class="feature-icon">🌐</div>
+<div class="feature-title">Layer 1 – Direct HTTP</div>
+<div class="feature-desc">Fast direct request with custom headers. Catches 90% of broken links and out-of-stock products instantly under 15 seconds.</div>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🔄</div>
+<div class="feature-title">Layer 2 – ScraperAPI</div>
+<div class="feature-desc">Renders JavaScript-heavy pages like Amazon and Flipkart that block direct requests. Uses real browser fingerprints.</div>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🎭</div>
+<div class="feature-title">Layer 3 – Playwright</div>
+<div class="feature-desc">Full headless Chromium browser as the final fallback. Handles dynamic AJAX-loaded stock status perfectly.</div>
+</div>
+<div class="feature-card">
+<div class="feature-icon">📱</div>
+<div class="feature-title">Telegram Alerts</div>
+<div class="feature-desc">Instant alerts the moment a link breaks or goes out of stock. No spam — one alert per status change, delivered in under 1 second.</div>
+</div>
+<div class="feature-card">
+<div class="feature-icon">🏷</div>
+<div class="feature-title">Out-of-Stock Detection</div>
+<div class="feature-desc">Specialized keyword patterns for Amazon, Flipkart, Shopify, and generic e-commerce. Detects "Sold Out", "Currently Unavailable", and more.</div>
+</div>
+<div class="feature-card">
+<div class="feature-icon">📊</div>
+<div class="feature-title">Check History</div>
+<div class="feature-desc">90-day rolling history of every check. See response times, detect patterns, and audit exactly when a link changed status.</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ── Supported Platforms ───────────────────────────────────── -->
+<section class="section" style="padding-top:0">
+<div class="container">
+<div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:24px;padding:4rem 2rem;text-align:center;">
+<div class="section-eyebrow" style="margin-bottom:1.5rem;">Supported platforms</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:0.75rem;">
+<span class="badge badge-pro">Amazon.in / .com</span>
+<span class="badge badge-pro">Flipkart</span>
+<span class="badge badge-pro">Shopify Stores</span>
+<span class="badge badge-pro">Etsy</span>
+<span class="badge badge-pro">WordPress / Blogs</span>
+<span class="badge badge-pro">WooCommerce</span>
+<span class="badge badge-pro">Any HTTP/HTTPS URL</span>
+</div>
+<p style="margin-top:2rem;font-size:0.875rem;color:var(--text-muted);">
+        ⚠️ Detection accuracy varies by platform. See <a href="terms.html" style="color:var(--cyan-accent);">Terms</a> for limitations.
+      </p>
+</div>
+</div>
+</section>
+<!-- ── Pricing ───────────────────────────────────────────────── -->
+<section class="section" id="pricing">
+<div class="container">
+<div class="section-header">
+<div class="section-eyebrow">Pricing</div>
+<h2 class="section-title">Simple, transparent pricing</h2>
+<p class="section-subtitle">Start free. Upgrade when you need more links.</p>
+</div>
+<div class="pricing-toggle">
+<button class="toggle-btn active" id="btnINR" onclick="setCurrency('INR')">₹ INR</button>
+<button class="toggle-btn" id="btnUSD" onclick="setCurrency('USD')">$ USD</button>
+</div>
+<div class="pricing-grid" id="pricingGrid">
+<!-- Rendered by JS -->
+</div>
+</div>
+</section>
+<!-- ── Testimonials & Feedback ───────────────────────────────── -->
+<section class="testimonials-section" id="testimonials">
+<div class="container">
+  <div class="testimonials-inner">
+    <!-- Left: Heading -->
+    <div>
+      <div class="section-eyebrow">User love</div>
+      <h2 class="testimonials-heading">
+        What our users<br/>
+        <span class="accent-line">are saying</span>
+      </h2>
+      <p class="testimonials-sub">Real feedback from affiliate marketers, bloggers, and e-commerce sellers using AffiGuard daily.</p>
+
+      <!-- Feedback Form -->
+      <div class="feedback-form-wrap">
+        <div class="feedback-form-title">💬 Share your experience</div>
+        <div class="feedback-form-sub">Help us improve — takes less than a minute.</div>
+        <div class="feedback-form-grid">
+          <div class="form-group">
+            <label class="form-label" for="fbName">Your Name</label>
+            <input class="form-input" id="fbName" placeholder="Rahul Sharma" type="text"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fbEmail">Email (optional)</label>
+            <input class="form-input" id="fbEmail" placeholder="you@example.com" type="email"/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label class="form-label" for="fbMsg">Your message</label>
+          <textarea class="form-input" id="fbMsg" placeholder="AffiGuard saved me when my Amazon affiliate link broke during a sale..." rows="3" style="resize:vertical;font-family:inherit;"></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:1.25rem;">
+          <label class="form-label">Rating</label>
+          <div class="star-rating" id="starRating">
+            <input id="s5" name="rating" type="radio" value="5"/><label for="s5" title="5 stars">★</label>
+            <input id="s4" name="rating" type="radio" value="4"/><label for="s4" title="4 stars">★</label>
+            <input id="s3" name="rating" type="radio" value="3"/><label for="s3" title="3 stars">★</label>
+            <input id="s2" name="rating" type="radio" value="2"/><label for="s2" title="2 stars">★</label>
+            <input id="s1" name="rating" type="radio" value="1"/><label for="s1" title="1 star">★</label>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="fbSubmitBtn" onclick="submitFeedback()">
+          <span id="fbBtnText">Submit Feedback</span>
+          <span class="spinner hidden" id="fbSpinner"></span>
+        </button>
+        <div class="feedback-alert" id="fbAlert"></div>
+      </div>
+    </div>
+
+    <!-- Right: Slider -->
+    <div>
+      <div class="slider-wrap" id="testimonialSlider">
+        <div class="slider-track" id="sliderTrack">
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-text">AffiGuard saved me during a major sale event. My Amazon affiliate link had gone out-of-stock and I had no idea. The Telegram alert came within minutes — I swapped the link before losing thousands in commissions.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">RS</div>
+              <div>
+                <div class="testimonial-name">Rahul Sharma</div>
+                <div class="testimonial-role">Amazon Affiliate Marketer, Delhi</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-text">I run a Flipkart affiliate blog with 80+ product links. Before AffiGuard, I'd find broken links weeks later. Now I get instant alerts. My CTR improved because readers trust that my links always work. Worth every rupee.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">PK</div>
+              <div>
+                <div class="testimonial-name">Priya Krishnan</div>
+                <div class="testimonial-role">Tech Blogger, Bengaluru</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star" style="color:rgba(255,255,255,0.2)">★</span>
+            </div>
+            <p class="testimonial-text">We use this for our WooCommerce store to monitor 30+ product landing pages. The ScraperAPI layer handles our JS-heavy pages perfectly. Setup was under 5 minutes and the Telegram bot integration is seamless. Highly recommend!</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">AM</div>
+              <div>
+                <div class="testimonial-name">Arjun Mehta</div>
+                <div class="testimonial-role">E-commerce Owner, Mumbai</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="testimonial-stars">
+              <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <p class="testimonial-text">As a content creator who reviews products, broken affiliate links are my nightmare. AffiGuard's free tier covers my basics perfectly, and when I needed more, upgrading was instant. The dashboard is clean and easy to use.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">SN</div>
+              <div>
+                <div class="testimonial-name">Sneha Nair</div>
+                <div class="testimonial-role">YouTube Creator & Blogger, Pune</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- ── Footer ────────────────────────────────────────────────── -->
+<footer class="footer">
+<div class="container">
+<div class="footer-grid">
+<div class="footer-brand">
+<a class="nav-logo" href="/">
+<div class="nav-logo-icon" style="width:28px;height:28px;font-size:0.9rem;">🛡</div>
+          AffiGuard
+        </a>
+<p>Professional link monitoring for Amazon affiliates, bloggers, and e-commerce businesses.</p>
+</div>
+<div class="footer-col">
+<h4>Product</h4>
+<a href="#features">Features</a>
+<a href="#pricing">Pricing</a>
+<a href="/dashboard">Dashboard</a>
+</div>
+<div class="footer-col">
+<h4>Support</h4>
+<a href="help.html">Help &amp; FAQ</a>
+<a href="contact.html">Contact</a>
+<a href="about.html">About</a>
+</div>
+<div class="footer-col">
+<h4>Legal</h4>
+<a href="terms.html">Terms of Service</a>
+<a href="privacy.html">Privacy Policy</a>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2024 AffiGuard. All rights reserved.</p>
+<p>Made with ❤️ for affiliate marketers</p>
+</div>
+</div>
+</footer>
+<script>
+// ── API Base ─────────────────────────────────────────────────
+const API = window.__BACKEND_URL || '';
+
+// ── Terms Consent ────────────────────────────────────────────
+(function () {
+  var STORAGE_KEY   = 'affiguard_terms_accepted';
+
+  var termsModal    = document.getElementById('termsModal');
+  var acceptBtn     = document.getElementById('termsAcceptBtn');
+  var declineBtn    = document.getElementById('termsDeclineBtn');
+  var reopenBtn     = document.getElementById('termsReopenBtn');
+  var checkerForm   = document.getElementById('checkerForm');
+  var declinedNote  = document.getElementById('checkerDeclinedNotice');
+  var checkerUrl    = document.getElementById('checkerUrl');
+  var checkerPlat   = document.getElementById('checkerPlatform');
+  var checkerBtn    = document.getElementById('checkerBtn');
+
+  function hasAccepted() {
+    try { return localStorage.getItem(STORAGE_KEY) === 'true'; }
+    catch (e) { return false; }
+  }
+
+  function enableChecker() {
+    checkerUrl.disabled  = false;
+    checkerPlat.disabled = false;
+    checkerBtn.disabled  = false;
+    checkerForm.classList.remove('checker-form-disabled');
+    declinedNote.classList.add('hidden');
+  }
+
+  function disableChecker() {
+    checkerUrl.disabled  = true;
+    checkerPlat.disabled = true;
+    checkerBtn.disabled  = true;
+    checkerForm.classList.add('checker-form-disabled');
+    declinedNote.classList.remove('hidden');
+  }
+
+  function openTermsModal() {
+    termsModal.classList.add('open');
+    requestAnimationFrame(function () { acceptBtn.focus(); });
+  }
+
+  function closeTermsModal() {
+    termsModal.classList.remove('open');
+  }
+
+  if (hasAccepted()) {
+    enableChecker();
+  } else {
+    disableChecker();
+    openTermsModal();
+  }
+
+  acceptBtn.addEventListener('click', function () {
+    try { localStorage.setItem(STORAGE_KEY, 'true'); } catch (e) {}
+    closeTermsModal();
+    enableChecker();
+  });
+
+  declineBtn.addEventListener('click', function () {
+    closeTermsModal();
+    disableChecker();
+  });
+
+  if (reopenBtn) {
+    reopenBtn.addEventListener('click', function () {
+      openTermsModal();
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && termsModal.classList.contains('open')) {
+      closeTermsModal();
+      if (!hasAccepted()) disableChecker();
+    }
+  });
+})();
+
+// ── Mobile Menu ──────────────────────────────────────────────
+(function () {
+  var menuBtn   = document.getElementById('mobileMenuBtn');
+  var mobileNav = document.getElementById('mobileNav');
+  if (!menuBtn || !mobileNav) return;
+
+  function openMenu() {
+    mobileNav.classList.add('open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+  }
+  function closeMenu() {
+    mobileNav.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+  function isMenuOpen() {
+    return mobileNav.classList.contains('open');
+  }
+
+  menuBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    isMenuOpen() ? closeMenu() : openMenu();
+  });
+  document.addEventListener('click', function (e) {
+    if (isMenuOpen() && !mobileNav.contains(e.target) && !menuBtn.contains(e.target)) {
+      closeMenu();
+    }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && isMenuOpen()) {
+      closeMenu();
+      menuBtn.focus();
+    }
+  });
+  mobileNav.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+})();
+
+// ── Free Checker ─────────────────────────────────────────────
+async function runFreeCheck() {
+  var url       = document.getElementById('checkerUrl').value.trim();
+  var platform  = document.getElementById('checkerPlatform').value;
+  var btn       = document.getElementById('checkerBtn');
+  var spinner   = document.getElementById('checkerSpinner');
+  var btnText   = document.getElementById('checkerBtnText');
+  var errBox    = document.getElementById('checkerError');
+  var resultDiv = document.getElementById('checkerResult');
+
+  if (!url) {
+    showAlert(errBox, 'Please enter a URL to check.', 'error');
+    return;
+  }
+
+  btn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Checking…';
+  errBox.className = 'alert-box';
+  resultDiv.classList.remove('show');
+
+  try {
+    var resp = await fetch(API + '/api/check-single', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url, platform: platform }),
+    });
+    var data = await resp.json();
+
+    if (!resp.ok) {
+      showAlert(errBox, data.error || 'Check failed. Try again.', 'error');
+      return;
+    }
+
+    document.getElementById('checkerBadge').innerHTML = buildBadge(data.status);
+    document.getElementById('checkerTime').textContent =
+      data.response_time ? data.response_time + ' ms' : '—';
+    document.getElementById('checkerLayer').textContent = data.layer_used || '—';
+    document.getElementById('checkerUrl2').textContent  = url;
+    var errMsg = document.getElementById('checkerErrorMsg');
+    if (data.error) {
+      errMsg.textContent  = 'Note: ' + data.error;
+      errMsg.style.display = 'block';
+    } else {
+      errMsg.style.display = 'none';
+    }
+    resultDiv.classList.add('show');
+
+  } catch (e) {
+    showAlert(errBox, 'Network error. Check your connection.', 'error');
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Check Now';
+  }
+}
+
+document.getElementById('checkerUrl').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') runFreeCheck();
+});
+
+// Show/hide the clear (×) button based on whether the field has text —
+// works for typing AND pasting (paste fires the 'input' event too).
+var _checkerUrlInput = document.getElementById('checkerUrl');
+var _checkerClearBtn = document.getElementById('checkerClearBtn');
+function _toggleCheckerClearBtn() {
+  if (_checkerUrlInput.value.trim().length > 0) {
+    _checkerClearBtn.classList.remove('hidden');
+  } else {
+    _checkerClearBtn.classList.add('hidden');
+  }
+}
+_checkerUrlInput.addEventListener('input', _toggleCheckerClearBtn);
+_checkerUrlInput.addEventListener('paste', function () {
+  // paste event fires before the value updates, so check on next tick
+  setTimeout(_toggleCheckerClearBtn, 0);
+});
+
+function clearCheckerUrl() {
+  _checkerUrlInput.value = '';
+  _checkerClearBtn.classList.add('hidden');
+  _checkerUrlInput.focus();
+}
+
+function buildBadge(status) {
+  var labels = {
+    active: 'Active', broken: 'Broken',
+    out_of_stock: 'Out of Stock', error: 'Error', pending: 'Pending'
+  };
+  var cls   = 'badge badge-' + (status || 'pending');
+  var label = labels[status] || status;
+  return '<span class="' + cls + '"><span class="badge-dot"></span>' + label + '</span>';
+}
+
+function showAlert(el, msg, type) {
+  el.textContent = msg;
+  el.className   = 'alert-box show ' + type;
+}
+
+// ── Pricing ──────────────────────────────────────────────────
+var plans = [
+  {
+    key: 'hobby', name: 'Hobby', inr: 0, usd: 0,
+    links: 5, frequency: 'Every 12 hrs',
+    features: [
+      '5 monitored links',
+      'Every 12-hour checks',
+      'Broken link detection',
+      'Out-of-stock detection',
+      'Telegram alerts (within 1 min)',
+      '7-day check history',
+      'HTTP layer only',
+    ],
+    nope: ['Email alerts', 'ScraperAPI layer', 'WhatsApp alerts', 'API access'],
+  },
+  {
+    key: 'pro_lite', name: 'Pro Lite', inr: 199, usd: 6,
+    links: 20, frequency: 'Every 6 hrs',
+    features: [
+      '20 monitored links',
+      'Every 6-hour checks',
+      'Broken link & out-of-stock detection',
+      'Telegram alerts (instant)',
+      '90-day check history',
+      'HTTP + ScraperAPI layers',
+    ],
+    nope: ['Email alerts', 'WhatsApp alerts', 'API access'],
+  },
+  {
+    key: 'popular', name: 'Most Popular', inr: 399, usd: 12,
+    links: 30, frequency: 'Every 2 hrs',
+    popular: true,
+    features: [
+      '30 monitored links',
+      'Every 2-hour checks',
+      'Broken link & out-of-stock detection',
+      'Telegram alerts (instant)',
+      'Email alerts ✉️',
+      '90-day check history',
+      'HTTP + ScraperAPI layers',
+    ],
+    nope: ['WhatsApp alerts', 'API access'],
+  },
+  {
+    key: 'business', name: 'Business', inr: 999, usd: 30,
+    links: 100, frequency: 'Every 1 hr',
+    features: [
+      '100+ monitored links',
+      'Every 1-hour checks (priority)',
+      'Broken link & out-of-stock detection',
+      'Telegram alerts (instant)',
+      'Email alerts ✉️',
+      'WhatsApp alerts (add-on) 📲',
+      '90-day check history',
+      'HTTP + ScraperAPI + Priority layers',
+      'API access 🔌',
+      'Dedicated support',
+    ],
+    nope: [],
+  },
+];
+
+var currency = 'INR';
+
+function setCurrency(c) {
+  currency = c;
+  document.getElementById('btnINR').classList.toggle('active', c === 'INR');
+  document.getElementById('btnUSD').classList.toggle('active', c === 'USD');
+  renderPricing();
+}
+
+function renderPricing() {
+  var sym  = currency === 'INR' ? '₹' : '$';
+  var grid = document.getElementById('pricingGrid');
+  grid.innerHTML = plans.map(function (p) {
+    var price     = currency === 'INR' ? p.inr : p.usd;
+    var priceHtml = price === 0
+      ? '<div class="pricing-price">Free</div>'
+      : '<div class="pricing-price"><sup>' + sym + '</sup>' + price + '</div>';
+    var feats = p.features.map(function (f) {
+      return '<div class="pricing-feature"><span class="pricing-feature-icon">✓</span>' + f + '</div>';
+    }).join('');
+    var nopes = (p.nope || []).map(function (f) {
+      return '<div class="pricing-feature"><span class="pricing-feature-icon no">✗</span><span style="color:var(--text-muted)">' + f + '</span></div>';
+    }).join('');
+    return '<div class="pricing-card' + (p.popular ? ' popular' : '') + '">'
+      + (p.popular ? '<div class="pricing-popular-badge">Most Popular</div>' : '')
+      + '<div class="pricing-plan-name">' + p.name + '</div>'
+      + priceHtml
+      + '<div class="pricing-period">' + (price === 0 ? 'Forever free' : 'per month') + '</div>'
+      + '<div class="pricing-features">' + feats + nopes + '</div>'
+      + '<a href="/signup" class="btn ' + (p.popular ? 'btn-primary' : 'btn-secondary') + '" style="width:100%;">'
+      + (price === 0 ? 'Get Started Free' : 'Choose ' + p.name)
+      + '</a></div>';
+  }).join('');
+}
+
+renderPricing();
+
+// ── Testimonials Slider ───────────────────────────────────────
+(function () {
+  var track  = document.getElementById('sliderTrack');
+  var dotsEl = document.getElementById('sliderDots');
+  if (!track || !dotsEl) return;
+
+  var cards   = track.querySelectorAll('.testimonial-card');
+  var total   = cards.length;
+  var current = 0;
+  var timer;
+
+  for (var i = 0; i < total; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.dataset.idx = i;
+    dot.addEventListener('click', function () {
+      goTo(parseInt(this.dataset.idx));
+      resetTimer();
+    });
+    dotsEl.appendChild(dot);
+  }
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotsEl.querySelectorAll('.slider-dot').forEach(function (d, i) {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function next() { goTo(current + 1); }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(next, 4200);
+  }
+
+  resetTimer();
+
+  var wrap = document.getElementById('testimonialSlider');
+  if (wrap) {
+    wrap.addEventListener('mouseenter', function () { clearInterval(timer); });
+    wrap.addEventListener('mouseleave', resetTimer);
+  }
+
+  var startX = 0;
+  track.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) { dx < 0 ? goTo(current + 1) : goTo(current - 1); resetTimer(); }
+  });
+})();
+
+// ── Feedback Submit ───────────────────────────────────────────
+async function submitFeedback() {
+  var name    = document.getElementById('fbName').value.trim();
+  var email   = document.getElementById('fbEmail').value.trim();
+  var message = document.getElementById('fbMsg').value.trim();
+  var ratingEl = document.querySelector('input[name="rating"]:checked');
+  var rating  = ratingEl ? parseInt(ratingEl.value) : null;
+  var alertEl = document.getElementById('fbAlert');
+  var btn     = document.getElementById('fbSubmitBtn');
+  var spinner = document.getElementById('fbSpinner');
+  var btnText = document.getElementById('fbBtnText');
+
+  if (!message) {
+    alertEl.textContent = 'Please write a message.';
+    alertEl.className = 'feedback-alert show error';
+    return;
+  }
+
+  btn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Submitting\u2026';
+
+  try {
+    var resp = await fetch(API + '/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, email: email, message: message, rating: rating }),
+    });
+    var data = await resp.json();
+    if (resp.ok) {
+      alertEl.textContent = '\uD83C\uDF89 Thank you! Your feedback has been recorded.';
+      alertEl.className = 'feedback-alert show success';
+      document.getElementById('fbName').value = '';
+      document.getElementById('fbEmail').value = '';
+      document.getElementById('fbMsg').value = '';
+      var checked = document.querySelector('input[name="rating"]:checked');
+      if (checked) checked.checked = false;
+    } else {
+      alertEl.textContent = data.error || 'Submission failed.';
+      alertEl.className = 'feedback-alert show error';
+    }
+  } catch (e) {
+    alertEl.textContent = 'Network error. Please try again.';
+    alertEl.className = 'feedback-alert show error';
+  } finally {
+    btn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Submit Feedback';
+  }
+}
+
+</script>
+</body></html>
